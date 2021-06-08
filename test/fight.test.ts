@@ -61,24 +61,28 @@ describe('Picachu attack Carapuce', () => {
     });
 
     let attackId: number;
+  // tslint:disable-next-line:only-arrow-functions typedef
     it('should Carapuce lose 10 HP when Pikachu use Queu de fer', function() {
         attackId = 0;
         pika.useAttackIdTo(attackId, cara);
         expect(cara.hp).toBe(140);
     });
 
+  // tslint:disable-next-line:only-arrow-functions typedef
     it('should Carapuce lose 30 HP when Pikachu use Eclair', function() {
         attackId = 1;
         pika.useAttackIdTo(attackId, cara);
         expect(cara.hp).toBe(120);
     });
 
+    // tslint:disable-next-line:only-arrow-functions typedef
     it('should Carapuce lose 25 HP when Pikachu use Vive attaque', function() {
         attackId = 2;
         pika.useAttackIdTo(attackId, cara);
         expect(cara.hp).toBe(125);
     });
 
+  // tslint:disable-next-line:only-arrow-functions typedef
     it('should Carapuce lose 15 HP when Pikachu use Coup d\'Jus', function() {
         attackId = 3;
         pika.useAttackIdTo(attackId, cara);
@@ -113,7 +117,7 @@ describe('Fight between Pikachu & Carapuce', () => {
 
     jest.setTimeout(10000);
 
-    it('winner should be Pikachu', async function() {
+    it('winner should be Pikachu', async () => {
         const fight = new Fight({
             p1: pika,
             p2: cara

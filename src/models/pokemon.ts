@@ -21,6 +21,7 @@ export class Pokemon {
         this.attacks = attacks;
     }
 
+  // tslint:disable-next-line:typedef
     useAttackIdTo(id: number, other: Pokemon){
         const dmg: number | undefined = this.attacks?.attacks[id].damage;
         if (dmg !== undefined){
