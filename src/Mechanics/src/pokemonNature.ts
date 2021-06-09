@@ -1,4 +1,6 @@
 import {PokemonStat} from "./pokemon";
+import {HttpClient} from '@angular/common/http';
+import {pokemonApiUrl} from '../index';
 
 export class PokemonNature{
     name: string;
@@ -26,9 +28,9 @@ export function pokemonNatureToStat(nature: PokemonNature): PokemonStat{
 }
 
 /*
-async function loadAllNature(){
+async function loadAllNature(http: HttpClient){
     if ( natureList === null){
-        const list = await P.getNaturesList();
+        const list = await http.get<any>(pokemonApiUrl+'nature');
 
         natureList = new Array<PokemonNature>();
         for (let i = 0; i < list.count ; i++) {
@@ -39,8 +41,7 @@ async function loadAllNature(){
 
     return natureList;
 }
-*/
-/*
+
 export async function getNature(name: string){
     if ( natureList === null) {
         natureList = await loadAllNature();
@@ -52,12 +53,13 @@ export async function getNature(name: string){
         return nature;
     }
 }
-*/
-/*
+
 export async function getRandomNature(): Promise<PokemonNature>{
     if ( natureList === null) {
         natureList = await loadAllNature();
     }
     return natureList[ Math.floor( Math.random() * natureList.length ) ];
 }
-*/
+
+ */
+

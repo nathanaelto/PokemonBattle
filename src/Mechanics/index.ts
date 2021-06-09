@@ -4,6 +4,8 @@ import { PokemonType} from "./src/PokemonType";
 import {  PokemonNature} from "./src/pokemonNature";
 import {PokemonMove} from "./src/pokemonMove";
 
+export const pokemonApiUrl= 'https://pokeapi.co/api/v2/';
+
 const type1 = new PokemonType("type1", "attack", {} );
 
 const move1 = new PokemonMove("lance banane", 100, 70, 20, 0, type1);
