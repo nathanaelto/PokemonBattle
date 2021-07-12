@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Log} from '../../../models/log';
 
 @Component({
   selector: 'app-battle-log',
@@ -7,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class BattleLogComponent implements OnInit {
   // tslint:disable-next-line:ban-types
-  @Input() logs: String[] = [];
+  @Input() logs: Log[] = [];
 
   constructor() { }
 

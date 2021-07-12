@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {Pokemon} from '../../../models/pokemon';
 import {Attacks} from '../../../models/attacks';
 import {whoAttackFirst} from '../../../controllers/fight';
+import {Log} from '../../../models/log';
 
 @Component({
   selector: 'app-body',
@@ -40,7 +41,7 @@ export class BodyComponent implements OnInit {
   pokemon1: Pokemon;
   pokemon2: Pokemon;
   // tslint:disable-next-line:ban-types
-  logs: String[] = [];
+  logs: Log[] = [];
   // tslint:disable-next-line:variable-name
   label_play_pause = 'Start';
   play = false;
@@ -68,7 +69,7 @@ export class BodyComponent implements OnInit {
 
   // tslint:disable-next-line:typedef
   async startFight() {
-    this.logs.push('start fight');
+    this.logs.push( new Log(undefined, undefined, 'Start', 0, undefined));
     // tslint:disable-next-line:variable-name
     const pokemon_start = whoAttackFirst(this.pokemon1, this.pokemon2);
     // tslint:disable-next-line:variable-name
@@ -88,20 +89,48 @@ export class BodyComponent implements OnInit {
         if (turn % 2 === 0) {
           attack = pokemon_start.chooseAttack();
           await this.attack(pokemon_start, pokemon_second, attack);
-          this.logs.push(this.logAttack(pokemon_start, attack));
+          this.logs.push(
+            new Log(
+              pokemon_start.name,
+              pokemon_start.attacks.attacks[attack].name,
+              this.logAttack(pokemon_start, attack),
+              1,
+              1
+            )
+          );
           if (this.isDead(pokemon_second)) {
             // return pokemon_start;
-            this.logs.push(`${pokemon_start.name} WIN`);
+            this.logs.push( new Log(
+              pokemon_start.name,
+              undefined,
+              `${pokemon_start.name} WIN`,
+              2,
+              1
+            ));
             break;
           }
 
         } else {
           attack = pokemon_second.chooseAttack();
           await this.attack(pokemon_second, pokemon_start, attack);
-          this.logs.push(this.logAttack(pokemon_second, attack));
+          this.logs.push(
+            new Log(
+              pokemon_second.name,
+              pokemon_second.attacks.attacks[attack].name,
+              this.logAttack(pokemon_second, attack),
+              1,
+              2
+            )
+          );
           if (this.isDead(pokemon_start)) {
             // return pokemon_second;
-            this.logs.push(`${pokemon_second.name} WIN`);
+            this.logs.push( new Log(
+              pokemon_start.name,
+              undefined,
+              `${pokemon_second.name} WIN`,
+              2,
+              2
+            ));
             break;
           }
         }
@@ -123,7 +152,7 @@ export class BodyComponent implements OnInit {
   }
 
   // tslint:disable-next-line:typedef ban-types
-  logAttack(attacker: Pokemon, attackId: number): String{
+  logAttack(attacker: Pokemon, attackId: number): string{
     const attack = attacker.attacks.attacks[attackId];
     return `${attacker.name} use ${attack.name} (${attack.damage})`;
   }

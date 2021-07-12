@@ -1,6 +1,8 @@
 <div class="text-center">
   <h4>Battle logs</h4>
   <li *ngFor="let item of logs; let i = index">
-    {{i}} : {{ item }}
+    <div [appLogPokemon]="item">
+      {{i}} : {{ item.log }}
+    </div>
   </li>
 </div>

@@ -1,5 +1,6 @@
 import {Pokemon} from './pokemon';
 import {whoAttackFirst} from '../controllers/fight';
+import {Log} from './log';
 
 export interface FightProps {
     p1: Pokemon;
@@ -16,7 +17,7 @@ export class Fight{
     p1: Pokemon;
     p2: Pokemon;
   // tslint:disable-next-line:ban-types
-    log: String[] = [];
+    log: Log[] = [];
 
     private static isDead(p: Pokemon): boolean{
         return p.hp === 0;
