@@ -56,13 +56,9 @@ export class Battle{
         console.log("prepareNextTurn: "+ this.pokemonToMove);
     }
 
-    getNextPokemonToMove(): Pokemon | null {
+    getNextPokemonToMove(): Pokemon {
         console.log("test: " + this.pokemonToMove);
-        if( this.pokemonToMove < 0 || this.pokemonToMove >= this.pokemons.length ){
-            return null;
-        }else {
-            return this.pokemons[this.pokemonToMove].pokemon;
-        }
+        return this.pokemons[this.pokemonToMove].pokemon;
     }
 
     isFightOver(): boolean{
