@@ -15,4 +15,15 @@ export class BattleLogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getColor(pid?: number){
+    if (pid === undefined){
+      return "black";
+    }
+    if (pid === 1){
+      return "blue";
+    } else {
+      return "red";
+    }
+  }
+
 }

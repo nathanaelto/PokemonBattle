@@ -1,8 +1,8 @@
 <div class="text-center">
   <h4>Battle logs</h4>
-  <li *ngFor="let item of logs; let i = index">
-    <div [appLogPokemon]="item">
-      {{i}} : {{ item.log }}
-    </div>
+  <li *ngFor="let item of logs; let i = index"
+      [ngStyle]="{color: getColor(item.pid)}"
+  >
+    {{i}} : {{ item.log }}
   </li>
 </div>
