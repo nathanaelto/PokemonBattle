@@ -7,7 +7,12 @@ import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { BodyComponent } from './components/body/body.component';
 import { PokemonDisplayComponent } from './components/pokemon-display/pokemon-display.component';
 import { BattleLogComponent } from './components/battle-log/battle-log.component';
-import { LogPokemonDirective } from './directive/log-pokemon.directive';
+import { SelectScreenComponent } from './components/select-screen/select-screen.component';
+import { FightScreenComponent } from './components/fight-screen/fight-screen.component';
+import { WinnerScreenComponent } from './components/winner-screen/winner-screen.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PokemonSelectComponent } from './components/pokemon-select/pokemon-select.component';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,9 +21,15 @@ import { LogPokemonDirective } from './directive/log-pokemon.directive';
     BodyComponent,
     PokemonDisplayComponent,
     BattleLogComponent,
-    LogPokemonDirective,
+    SelectScreenComponent,
+    FightScreenComponent,
+    WinnerScreenComponent,
+    NotFoundComponent,
+    PokemonSelectComponent,
   ],
   imports: [
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule
   ],

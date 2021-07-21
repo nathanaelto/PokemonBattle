@@ -1,0 +1,16 @@
+<div class="col-sm-8 col-sm-offset-2">
+  <h3>Selectionner vos pokemons</h3>
+  <form [formGroup]="pokemonForm" (ngSubmit)="onSubmitForm()">
+    <div class="row hidden-md-down">
+      <div class="col-6">
+        <label for="idPokemon1">First pokemon</label>
+        <app-pokemon-select labelId="idPokemon1" [pokemonsWithImg]="getPokemonsName()"></app-pokemon-select>
+      </div>
+      <div class="col-6">
+        <label for="idPokemon2">Second pokemon</label>
+        <app-pokemon-select labelId="idPokemon2" [pokemonsWithImg]="getPokemonsName()"></app-pokemon-select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="pokemonForm.invalid">Start Fight</button>
+  </form>
+</div>
