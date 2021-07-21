@@ -1,5 +1,7 @@
-import {Pokemon} from "../models/pokemon";
+import {Pokemon} from "../Mechanics/src/pokemon";
+import {Battle} from '../Mechanics/src/battle';
 
-export function whoAttackFirst(p1: Pokemon, p2: Pokemon): Pokemon{
-    return p1.speed > p2.speed ? p1 : p2;
+
+export function whoAttackFirst(battle:Battle): Pokemon{
+    return battle.getNextPokemonToMove();
 }

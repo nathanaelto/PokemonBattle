@@ -7,6 +7,7 @@ import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { BodyComponent } from './components/body/body.component';
 import { PokemonDisplayComponent } from './components/pokemon-display/pokemon-display.component';
 import { BattleLogComponent } from './components/battle-log/battle-log.component';
+import {BattleService} from './services/battle.service';
 import { SelectScreenComponent } from './components/select-screen/select-screen.component';
 import { FightScreenComponent } from './components/fight-screen/fight-screen.component';
 import { WinnerScreenComponent } from './components/winner-screen/winner-screen.component';
@@ -33,7 +34,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [BattleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
