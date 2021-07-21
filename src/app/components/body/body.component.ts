@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Pokemon} from '../../../models/pokemon';
-import {Attacks} from '../../../models/attacks';
-import {whoAttackFirst} from '../../../controllers/fight';
+import {Pokemon} from '../../../Mechanics/src/pokemon';
 import {Log} from '../../../models/log';
+import {PokemonType} from '../../../Mechanics/src/PokemonType';
+import {PokemonNature} from '../../../Mechanics/src/pokemonNature';
+import {PokemonMove} from '../../../Mechanics/src/pokemonMove';
+import {Battle} from '../../../Mechanics/src/battle';
+import { BattleService } from 'src/app/services/battle.service';
 
 @Component({
   selector: 'app-body',
@@ -12,29 +15,96 @@ import {Log} from '../../../models/log';
 
 export class BodyComponent implements OnInit {
 
-  constructor() {
-    this.pokemon1 = new Pokemon(
-      'Pikachu',
-      90,
-      100,
-      new Attacks([
-        { name: 'Queu de fer', damage: 10 },
-        { name: 'Eclair', damage: 30 },
-        { name: 'Vive attaque', damage: 25},
-        { name: 'Coup d\'Jus', damage: 15}
-      ])
+  constructor( private battleService : BattleService) {
+    let type = new PokemonType("default", "none",{} );
+
+    let move = new PokemonMove("lance bite", 100, 50, 15, 1, type);
+    let move2 = new PokemonMove("lance cul", 10, 200, 15, 15, type);
+
+    this.pokemon1 =  new Pokemon(
+      {
+        name: "papi",
+        pokemonName: "Papilusion",
+        level: 50,
+        type1: type,
+        nature: new PokemonNature("null", null, null),
+        moves:[move, move2],
+        baseStat: {
+          hp: 60,
+          attack: 45,
+          defense: 50,
+          speAttack: 80,
+          speDefense: 80,
+          speed: 70
+        },
+        individualStat: {
+          hp: 28,
+          attack: 4,
+          defense: 17,
+          speAttack: 30,
+          speDefense: 27,
+          speed: 31
+        },
+        effortStat: {
+          hp: 1,
+          attack: 0,
+          defense: 0,
+          speAttack: 63,
+          speDefense: 0,
+          speed: 63
+        },
+        natureStat: {
+          hp: 1,
+          attack: 0.9,
+          defense: 1,
+          speAttack: 1.1,
+          speDefense: 1,
+          speed: 1
+        }
+      }
     );
 
-    this.pokemon2 = new Pokemon(
-      'Carapuce',
-      75,
-      150,
-      new Attacks([
-        { name: 'Canon a eau', damage: 35},
-        { name: 'Coup de boul', damage: 5},
-        { name: 'Vibraqua', damage: 20},
-        { name: 'Hydroqueue', damage: 10}
-      ])
+    this.pokemon2 =  new Pokemon(
+      {
+        name: "papi 2",
+        pokemonName: "Papilusion",
+        level: 50,
+        type1: type,
+        nature: new PokemonNature("null", null, null),
+        moves:[move, move2],
+        baseStat: {
+          hp: 60,
+          attack: 45,
+          defense: 50,
+          speAttack: 80,
+          speDefense: 80,
+          speed: 70
+        },
+        individualStat: {
+          hp: 28,
+          attack: 4,
+          defense: 17,
+          speAttack: 30,
+          speDefense: 27,
+          speed: 31
+        },
+        effortStat: {
+          hp: 1,
+          attack: 0,
+          defense: 0,
+          speAttack: 63,
+          speDefense: 0,
+          speed: 63
+        },
+        natureStat: {
+          hp: 1,
+          attack: 0.9,
+          defense: 1,
+          speAttack: 1.1,
+          speDefense: 1,
+          speed: 1
+        }
+      }
     );
   }
 
@@ -49,7 +119,7 @@ export class BodyComponent implements OnInit {
   firstStart = true;
 
   isDead(p: Pokemon): boolean{
-    return p.hp === 0;
+    return p.isDead();
   }
 
   ngOnInit(): void {
@@ -71,90 +141,15 @@ export class BodyComponent implements OnInit {
   async startFight() {
     this.logs.push( new Log(undefined, undefined, 'Start', 0, undefined));
     // tslint:disable-next-line:variable-name
-    const pokemon_start = whoAttackFirst(this.pokemon1, this.pokemon2);
-    // tslint:disable-next-line:variable-name
-    let pokemon_second: Pokemon;
-    if (pokemon_start === this.pokemon1) {
-      pokemon_second = this.pokemon2;
-    } else {
-      pokemon_second = this.pokemon1;
+    let battle = new Battle();
+    this.battleService.init([this.pokemon1, this.pokemon2] );
+
+    this.battleService.startTurn();
+    while(!this.battleService.isOver()){
+      this.logs.push( this.battleService.stepTurn());
+      await this.delay(1000);
     }
 
-    let turn = 0;
-    while (true) {
-      // console.log(this.pokemon1.hp);
-
-      if (this.play){
-        let attack;
-        if (turn % 2 === 0) {
-          attack = pokemon_start.chooseAttack();
-          await this.attack(pokemon_start, pokemon_second, attack);
-          this.logs.push(
-            new Log(
-              pokemon_start.name,
-              pokemon_start.attacks.attacks[attack].name,
-              this.logAttack(pokemon_start, attack),
-              1,
-              1
-            )
-          );
-          if (this.isDead(pokemon_second)) {
-            // return pokemon_start;
-            this.logs.push( new Log(
-              pokemon_start.name,
-              undefined,
-              `${pokemon_start.name} WIN`,
-              2,
-              1
-            ));
-            break;
-          }
-
-        } else {
-          attack = pokemon_second.chooseAttack();
-          await this.attack(pokemon_second, pokemon_start, attack);
-          this.logs.push(
-            new Log(
-              pokemon_second.name,
-              pokemon_second.attacks.attacks[attack].name,
-              this.logAttack(pokemon_second, attack),
-              1,
-              2
-            )
-          );
-          if (this.isDead(pokemon_start)) {
-            // return pokemon_second;
-            this.logs.push( new Log(
-              pokemon_start.name,
-              undefined,
-              `${pokemon_second.name} WIN`,
-              2,
-              2
-            ));
-            break;
-          }
-        }
-        // this.logFightStatus(pokemon_start, pokemon_second);
-        turn += 1;
-      } else {
-        await this.delay(2000);
-      }
-    }
-  }
-
-  // tslint:disable-next-line:typedef
-  private attack(attacker: Pokemon, target: Pokemon, attack: number){
-    return new Promise<void>(resolve => {
-      setTimeout(() => {
-        resolve(attacker.useAttackIdTo(attack, target));
-      }, 2000);
-    });
-  }
-
-  // tslint:disable-next-line:typedef ban-types
-  logAttack(attacker: Pokemon, attackId: number): string{
-    const attack = attacker.attacks.attacks[attackId];
-    return `${attacker.name} use ${attack.name} (${attack.damage})`;
   }
 
   // tslint:disable-next-line:typedef

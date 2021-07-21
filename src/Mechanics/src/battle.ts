@@ -5,7 +5,7 @@ import {PokemonMove} from "./pokemonMove";
 interface pokemonBattleMove{
     pokemon: Pokemon;
     teams: number;
-    move: PokemonMove | undefined;
+    move: PokemonMove;
     targets: Array<Pokemon>;
 }
 
@@ -23,7 +23,7 @@ export class Battle{
             this.pokemons[i] = {
                 pokemon: pokemons[i],
                 teams: i,
-                move: undefined,
+                move: pokemons[i].moves[0],
                 targets: []
             }
         }
@@ -59,6 +59,15 @@ export class Battle{
     getNextPokemonToMove(): Pokemon {
         console.log("test: " + this.pokemonToMove);
         return this.pokemons[this.pokemonToMove].pokemon;
+    }
+
+    getNextPokemonAction(): pokemonBattleMove {
+        if( this.pokemonToMove < 0 || this.pokemonToMove >= this.pokemons.length){
+          this.prepareNextTurn();
+        }
+        console.log("test: " + this.pokemonToMove);
+        this.pokemonToMove += 1;
+        return this.pokemons[this.pokemonToMove - 1];
     }
 
     isFightOver(): boolean{

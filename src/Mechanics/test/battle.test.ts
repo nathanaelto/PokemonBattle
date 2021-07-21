@@ -21,6 +21,7 @@ describe( "battle test", function (){
                 speed: 10
             }
         });
+
         const p2 = new Pokemon({
             name:"cara",
             pokemonName:"carapuce",

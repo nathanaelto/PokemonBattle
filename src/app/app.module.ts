@@ -7,7 +7,7 @@ import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { BodyComponent } from './components/body/body.component';
 import { PokemonDisplayComponent } from './components/pokemon-display/pokemon-display.component';
 import { BattleLogComponent } from './components/battle-log/battle-log.component';
-import { LogPokemonDirective } from './directive/log-pokemon.directive';
+import {BattleService} from './services/battle.service';
 
 @NgModule({
   declarations: [
@@ -16,13 +16,12 @@ import { LogPokemonDirective } from './directive/log-pokemon.directive';
     BodyComponent,
     PokemonDisplayComponent,
     BattleLogComponent,
-    LogPokemonDirective,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [BattleService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

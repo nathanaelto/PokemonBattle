@@ -203,20 +203,24 @@ export class Pokemon {
         return Math.random()*100 < accuracy;
     }
 
-    attack( move: PokemonMove, target: Pokemon){
+    attack( move: PokemonMove, target: Pokemon): number{
         if( move.type.moveDamageClass !== "status" ) {
-
 
             const A = move.type.moveDamageClass === "physical" ? this.battleStat.attack : this.battleStat.speAttack;
             const D = move.type.moveDamageClass === "physical" ? target.battleStat.defense : target.battleStat.speDefense;
             let damage = Math.floor(Math.floor(Math.floor(2 * this.level / 5 + 2) * A * move.power / D) / 50) + 2;
             damage *= move.type.getDamageMultiplier(target.type1, target.type2);
 
-            console.log(this.name +" attacke: " + target.name);
+            console.log(this.name +" attack: " + target.name);
 
             target.battleStat.hp -= damage;
+            if( target.battleStat.hp <0 ){
+              target.battleStat.hp = 0;
+            }
+            return damage;
         }
 
+        return -1;
     }
 
     isDead(){
