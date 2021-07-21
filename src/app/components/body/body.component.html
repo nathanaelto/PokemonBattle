@@ -1,16 +1,18 @@
 <div class="container " id="body">
   <div class="row hidden-md-down" >
     <div class="col-4">
-      <p>Pikachu</p>
-      <app-pokemon-display></app-pokemon-display>
+      <app-pokemon-display [pokemon]="pokemon1"></app-pokemon-display>
     </div>
     <div class="col-4">
       <p>VS</p>
+      <button type="button" (click)="launch()">{{play ? 'Pause' : 'Start'}}</button>
     </div>
     <div class="col-4">
-      <p>Carapuce</p>
-      <app-pokemon-display></app-pokemon-display>
+      <app-pokemon-display [pokemon]="pokemon2"></app-pokemon-display>
     </div>
+  </div>
+  <div class="row hidden-md-down" >
+    <app-battle-log [logs]="logs"></app-battle-log>
   </div>
 </div>
 

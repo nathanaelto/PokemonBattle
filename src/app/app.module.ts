@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { TabBarComponent } from './components/tab-bar/tab-bar.component';
 import { BodyComponent } from './components/body/body.component';
 import { PokemonDisplayComponent } from './components/pokemon-display/pokemon-display.component';
+import { BattleLogComponent } from './components/battle-log/battle-log.component';
+import { LogPokemonDirective } from './directive/log-pokemon.directive';
 
 @NgModule({
   declarations: [
@@ -13,6 +15,8 @@ import { PokemonDisplayComponent } from './components/pokemon-display/pokemon-di
     TabBarComponent,
     BodyComponent,
     PokemonDisplayComponent,
+    BattleLogComponent,
+    LogPokemonDirective,
   ],
   imports: [
     BrowserModule,
