@@ -4,11 +4,17 @@
     <div class="row hidden-md-down">
       <div class="col-6">
         <label for="idPokemon1">First pokemon</label>
-        <app-pokemon-select labelId="idPokemon1" [pokemonsWithImg]="getPokemonsName()"></app-pokemon-select>
+        <!--<img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">-->
+        <select id="idPokemon1" class="form-control" formControlName="idPokemon1">
+          <option *ngFor="let pokemon of getPokemonsName();" value="{{pokemon.name}}">{{pokemon.name}}</option>
+        </select>
       </div>
       <div class="col-6">
         <label for="idPokemon2">Second pokemon</label>
-        <app-pokemon-select labelId="idPokemon2" [pokemonsWithImg]="getPokemonsName()"></app-pokemon-select>
+        <!--<img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">-->
+        <select id="idPokemon2" class="form-control" formControlName="idPokemon2">
+          <option *ngFor="let pokemon of getPokemonsName();" value="{{pokemon.name}}">{{pokemon.name}}</option>
+        </select>
       </div>
     </div>
     <button type="submit" class="btn btn-primary" [disabled]="pokemonForm.invalid">Start Fight</button>

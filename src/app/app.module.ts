@@ -12,7 +12,6 @@ import { SelectScreenComponent } from './components/select-screen/select-screen.
 import { FightScreenComponent } from './components/fight-screen/fight-screen.component';
 import { WinnerScreenComponent } from './components/winner-screen/winner-screen.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { PokemonSelectComponent } from './components/pokemon-select/pokemon-select.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
@@ -26,7 +25,6 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     FightScreenComponent,
     WinnerScreenComponent,
     NotFoundComponent,
-    PokemonSelectComponent,
   ],
   imports: [
     FormsModule,
