@@ -1,19 +1,19 @@
-<div class="col-sm-8 col-sm-offset-2">
+<div class="container-fluid">
   <h3>Selectionner vos pokemons</h3>
   <form [formGroup]="pokemonForm" (ngSubmit)="onSubmitForm()">
     <div class="row hidden-md-down">
       <div class="col-6">
         <label for="idPokemon1">First pokemon</label>
-        <!--<img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">-->
-        <select id="idPokemon1" class="form-control" formControlName="idPokemon1">
-          <option *ngFor="let pokemon of getPokemonsName();" value="{{pokemon.name}}">{{pokemon.name}}</option>
+        <img *ngIf="showImg1" src="{{linkImg1}}" alt="{{linkImg1}}" width="500" height="600">
+        <select id="idPokemon1" class="form-control" formControlName="idPokemon1" #t (change)="callType1(t.value)">
+          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.name}}">{{pokemon.name}}</option>
         </select>
       </div>
       <div class="col-6">
         <label for="idPokemon2">Second pokemon</label>
-        <!--<img src="img_girl.jpg" alt="Girl in a jacket" width="500" height="600">-->
-        <select id="idPokemon2" class="form-control" formControlName="idPokemon2">
-          <option *ngFor="let pokemon of getPokemonsName();" value="{{pokemon.name}}">{{pokemon.name}}</option>
+        <img *ngIf="showImg2" src="{{linkImg2}}" alt="{{linkImg2}}" width="500" height="600">
+        <select id="idPokemon2" class="form-control" formControlName="idPokemon2" #d (change)="callType2(d.value)">
+          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.name}}">{{pokemon.name}}</option>
         </select>
       </div>
     </div>

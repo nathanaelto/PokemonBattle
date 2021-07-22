@@ -12,8 +12,8 @@ const routes: Routes = [
   {path: 'fight/:idPokemon1/:idPokemon2', component: BodyComponent},
   {path: 'winner', component: WinnerScreenComponent},
   {path: 'not-found', component: NotFoundComponent},
-  //{path: "**", redirectTo: "not-found"},
-  {path: '', component: SelectScreenComponent},
+  {path: '', redirectTo: "select", pathMatch:'full'},
+  {path: "**", redirectTo: "not-found"},
 ];
 
 @NgModule({
