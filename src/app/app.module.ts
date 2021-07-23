@@ -13,6 +13,10 @@ import { FightScreenComponent } from './components/fight-screen/fight-screen.com
 import { WinnerScreenComponent } from './components/winner-screen/winner-screen.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { PokemonCreateComponent } from './components/pokemon-create/pokemon-create.component';
+import { PokemonStatsDisplayComponent } from './components/pokemon-stats-display/pokemon-stats-display.component';
+import {PokemonApiService} from './services/pokemon-api.service';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -25,14 +29,17 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     FightScreenComponent,
     WinnerScreenComponent,
     NotFoundComponent,
+    PokemonCreateComponent,
+    PokemonStatsDisplayComponent,
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule
   ],
-  providers: [BattleService],
+  providers: [BattleService, PokemonApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -25,6 +25,7 @@ export interface IPokemonInitializer{
     type2?: PokemonType;
 
     level?: number;
+    imageLink?: string;
 
     baseStat: PokemonStat;
     individualStat?: PokemonStat;
@@ -70,6 +71,9 @@ export async function getPokemonFromApi(name: string, pokemonName: string){
 export class Pokemon {
     pokemonName: string;
     name: string;
+
+    imageLink: string;
+
     nature: PokemonNature;
     type1: PokemonType;
     type2: PokemonType | undefined;
@@ -118,6 +122,12 @@ export class Pokemon {
 
         this.type1 = args.type1;
         this.type2 = args.type2;
+
+        if( args.imageLink !== undefined){
+          this.imageLink = args.imageLink;
+        }else{
+          this.imageLink = "";
+        }
 
         if( args.individualStat !== undefined) {
             this.individualStat = args.individualStat;

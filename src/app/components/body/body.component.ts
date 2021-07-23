@@ -6,6 +6,8 @@ import {PokemonNature} from '../../../Mechanics/src/pokemonNature';
 import {PokemonMove} from '../../../Mechanics/src/pokemonMove';
 import {Battle} from '../../../Mechanics/src/battle';
 import { BattleService } from 'src/app/services/battle.service';
+import {PokemonApiService} from '../../services/pokemon-api.service';
+import {ActivatedRoute, Route} from '@angular/router';
 
 @Component({
   selector: 'app-body',
@@ -15,20 +17,17 @@ import { BattleService } from 'src/app/services/battle.service';
 
 export class BodyComponent implements OnInit {
 
-  constructor( private battleService : BattleService) {
-    let type = new PokemonType("default", "none",{} );
+  constructor( private battleService : BattleService,
+               private pokemonApiService : PokemonApiService,
+               private route: ActivatedRoute
+              ) {
 
-    let move = new PokemonMove("lance bite", 100, 50, 15, 1, type);
-    let move2 = new PokemonMove("lance cul", 10, 200, 15, 15, type);
-
-    this.pokemon1 =  new Pokemon(
+    this.pokemon1 = new Pokemon(
       {
         name: "papi",
         pokemonName: "Papilusion",
-        level: 50,
-        type1: type,
+        type1: new PokemonType("default", "none",{} ),
         nature: new PokemonNature("null", null, null),
-        moves:[move, move2],
         baseStat: {
           hp: 60,
           attack: 45,
@@ -64,14 +63,12 @@ export class BodyComponent implements OnInit {
       }
     );
 
-    this.pokemon2 =  new Pokemon(
+    this.pokemon2 = new Pokemon(
       {
-        name: "papi 2",
+        name: "papi",
         pokemonName: "Papilusion",
-        level: 50,
-        type1: type,
+        type1: new PokemonType("default", "none",{} ),
         nature: new PokemonNature("null", null, null),
-        moves:[move, move2],
         baseStat: {
           hp: 60,
           attack: 45,
@@ -106,6 +103,7 @@ export class BodyComponent implements OnInit {
         }
       }
     );
+
   }
 
   pokemon1: Pokemon;
@@ -122,7 +120,20 @@ export class BodyComponent implements OnInit {
     return p.isDead();
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    let pn1 = this.route.snapshot.paramMap.get('idPokemon1');
+    if( pn1 !== null){
+      let p1 = await this.pokemonApiService.getPokemon( pn1 );
+      if( p1 !== undefined)
+        this.pokemon1 = p1;
+    }
+    let pn2 = this.route.snapshot.paramMap.get('idPokemon2');
+    if( pn2 !== null){
+      let p2 = await this.pokemonApiService.getPokemon( pn2 );
+      if( p2 !== undefined)
+        this.pokemon2 = p2;
+    }
+
   }
 
   // tslint:disable-next-line:typedef

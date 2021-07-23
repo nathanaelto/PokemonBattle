@@ -2,21 +2,36 @@
   <h3>Selectionner vos pokemons</h3>
   <form [formGroup]="pokemonForm" (ngSubmit)="onSubmitForm()">
     <div class="row hidden-md-down">
+
       <div class="col-6">
         <label for="idPokemon1">First pokemon</label>
         <img *ngIf="showImg1" src="{{linkImg1}}" alt="{{linkImg1}}" width="500" height="600">
         <select id="idPokemon1" class="form-control" formControlName="idPokemon1" #t (change)="callType1(t.value)">
-          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.name}}">{{pokemon.name}}</option>
+          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.pokemonName}}">{{pokemon.pokemonName}}</option>
         </select>
       </div>
+
       <div class="col-6">
         <label for="idPokemon2">Second pokemon</label>
         <img *ngIf="showImg2" src="{{linkImg2}}" alt="{{linkImg2}}" width="500" height="600">
         <select id="idPokemon2" class="form-control" formControlName="idPokemon2" #d (change)="callType2(d.value)">
-          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.name}}">{{pokemon.name}}</option>
+          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.pokemonName}}">{{pokemon.pokemonName}}</option>
         </select>
       </div>
+
+      <app-pokemon-stats-display class="col-6" [stats]="poke?.stats"> </app-pokemon-stats-display>
+
+      <app-pokemon-stats-display class="col-6" [stats]="poke2?.stats"> </app-pokemon-stats-display>
+
+      <div class="col-6">
+        <button type="submit" class="btn btn-primary" (click)="onCreatePokemon1()">Create Pokemon</button>
+      </div>
+
+      <div class="col-6">
+        <button type="submit" class="btn btn-primary" (click)="onCreatePokemon1()">Create Pokemon</button>
+      </div>
+
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="pokemonForm.invalid">Start Fight</button>
+    <button type="submit" class="btn btn-primary" [disabled]="pokemonForm.invalid" >Start Fight</button>
   </form>
 </div>
