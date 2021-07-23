@@ -133,7 +133,6 @@ export class BodyComponent implements OnInit {
       if( p2 !== undefined)
         this.pokemon2 = p2;
     }
-
   }
 
   // tslint:disable-next-line:typedef

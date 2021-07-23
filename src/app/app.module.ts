@@ -17,6 +17,7 @@ import { PokemonCreateComponent } from './components/pokemon-create/pokemon-crea
 import { PokemonStatsDisplayComponent } from './components/pokemon-stats-display/pokemon-stats-display.component';
 import {PokemonApiService} from './services/pokemon-api.service';
 import {HttpClientModule} from '@angular/common/http';
+import { PokemonMoveDisplayComponent } from './components/pokemon-move-display/pokemon-move-display.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {HttpClientModule} from '@angular/common/http';
     NotFoundComponent,
     PokemonCreateComponent,
     PokemonStatsDisplayComponent,
+    PokemonMoveDisplayComponent,
   ],
   imports: [
     FormsModule,

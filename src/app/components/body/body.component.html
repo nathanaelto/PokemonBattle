@@ -11,7 +11,43 @@
       <app-pokemon-display [pokemon]="pokemon2"></app-pokemon-display>
     </div>
   </div>
-  <div class="row hidden-md-down" >
+
+<div class="row">
+  <div class="col-6">
+    <div class="grid-container">
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[0]"></app-pokemon-move-display>
+      </div>
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[1]"></app-pokemon-move-display>
+      </div>
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[2]"></app-pokemon-move-display>
+      </div>
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[3]"></app-pokemon-move-display>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="grid-container">
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[0]"></app-pokemon-move-display>
+      </div>
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[1]"></app-pokemon-move-display>
+      </div>
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[2]"></app-pokemon-move-display>
+      </div>
+      <div>
+        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[3]"></app-pokemon-move-display>
+      </div>
+    </div>
+</div>
+
+
+  <div class="col" >
     <app-battle-log [logs]="logs"></app-battle-log>
   </div>
 </div>

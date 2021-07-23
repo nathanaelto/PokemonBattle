@@ -64,6 +64,7 @@ export class SelectScreenComponent implements OnInit {
 
   async selectGeneration(generationName: string) {
     this.pokelist = await this.pokemonApi.getAllPokemonByGeneration(generationName);
+    console.log("selectGeneration ended");
   }
 
   callType1(value: string) {

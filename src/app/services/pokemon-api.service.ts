@@ -68,6 +68,7 @@ export class PokemonApiService {
           noDamageFrom: jsonType.damage_relations.no_damage_from.map( (v: { name: string; }) =>  v.name ),
           noDamageTo: jsonType.damage_relations.no_damage_to.map( (v: { name: string; }) =>  v.name )
         }));
+        console.log("load type: "+t.name +" ended");
       }
     }
     return this.types;
@@ -107,25 +108,35 @@ export class PokemonApiService {
    */
   async getPokemonByName(pokemonName: string){
 
-    //console.log("loading pokemon:  "+pokemonName);
+    console.log("loading pokemon:  "+pokemonName);
     const speciesData = await this.httpClient.get<any>("https://pokeapi.co/api/v2/pokemon-species/"+pokemonName).toPromise();
     const pokemonID = speciesData.id;
 
     const data = await this.httpClient.get<any>("https://pokeapi.co/api/v2/pokemon/"+pokemonID).toPromise();
 
-    const numberOfMove = data.moves.length;
-    let moves: PokemonMove[] = [];
-    for(let i = 0; i<4; i++){
-      let move;
+    const numberOfPossibleMove = data.moves.length;
 
-      do {
-        let rand = Math.floor(Math.random() * numberOfMove);
-        move = await this.getMove(data.moves[rand].move.name);
-      }while(move.accuracy === null || move.power === null);
-
-      moves.push(move);
+    //load all the pokemon move that deals damage
+    let allPossibleMoves: PokemonMove[] = [];
+    for(let i = 0; i<numberOfPossibleMove; i++) {
+      let move = await this.getMove(data.moves[i].move.name);
+      if(move.accuracy !== null || move.power !== null)
+        allPossibleMoves.push(move);
     }
 
+    let moves: PokemonMove[] = [];
+
+    if(allPossibleMoves.length>0){
+      let nbMove = Math.min(4, allPossibleMoves.length);
+      for(let i = 0; i<nbMove; i++){
+        let rand = Math.floor(Math.random() * allPossibleMoves.length);
+        moves.push( allPossibleMoves[rand]);
+      }
+    }else{
+      moves.push( await this.getMove("pound"));
+    }
+
+    console.log("loading pokemon:  "+pokemonName +" ended");
     return new Pokemon(
       {
         name: "",
@@ -176,6 +187,7 @@ export class PokemonApiService {
       console.log("Move: "+ moveName+" acc: "+ data.accuracy+" p: "+data.power+"  prio: "+ data.priority);
       move = new PokemonMove(moveName, data.accuracy, data.power, data.pp, data.priority, await this.getPokemonType(data.type.name))
       this.moves.push(move);
+      console.log("Move: "+ moveName+" ended");
       return move;
     }else{
       return move;
