@@ -1,8 +1,15 @@
 <div class="container-fluid">
   <h3>Selectionner vos pokemons</h3>
   <form [formGroup]="pokemonForm" (ngSubmit)="onSubmitForm()">
-    <div class="row hidden-md-down">
 
+    <div class="col-6">
+      <label for="idGeneration">Select Generation</label>
+      <select id="idGeneration" class="form-control" formControlName="idGeneration" #e (change)="selectGeneration(e.value)">
+        <option *ngFor="let generation of generationList;" value="{{generation}}">{{generation}}</option>
+      </select>
+    </div>
+
+    <div class="row hidden-md-down">
       <div class="col-6">
         <label for="idPokemon1">First pokemon</label>
         <img *ngIf="showImg1" src="{{linkImg1}}" alt="{{linkImg1}}" width="500" height="600">
@@ -10,7 +17,6 @@
           <option *ngFor="let pokemon of pokelist;" value="{{pokemon.pokemonName}}">{{pokemon.pokemonName}}</option>
         </select>
       </div>
-
       <div class="col-6">
         <label for="idPokemon2">Second pokemon</label>
         <img *ngIf="showImg2" src="{{linkImg2}}" alt="{{linkImg2}}" width="500" height="600">
@@ -18,7 +24,6 @@
           <option *ngFor="let pokemon of pokelist;" value="{{pokemon.pokemonName}}">{{pokemon.pokemonName}}</option>
         </select>
       </div>
-
       <app-pokemon-stats-display class="col-6" [stats]="poke?.stats"> </app-pokemon-stats-display>
 
       <app-pokemon-stats-display class="col-6" [stats]="poke2?.stats"> </app-pokemon-stats-display>

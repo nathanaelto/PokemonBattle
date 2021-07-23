@@ -93,7 +93,7 @@ export class Pokemon {
 
     moves: PokemonMove[];
 
-    constructor(args: IPokemonInitializer) {
+  constructor(args: IPokemonInitializer) {
         this.name = args.name;
         this.pokemonName = args.pokemonName;
         this.baseStat = args.baseStat;
@@ -187,6 +187,23 @@ export class Pokemon {
         this.battleStat = { ...this.stats
         };
 
+    }
+
+    copy(): Pokemon{
+      return new Pokemon( {
+        pokemonName: this.pokemonName,
+        name: this.name,
+        nature: this.nature,
+        type1: this.type1,
+        type2: this.type1,
+        level: this.level,
+        imageLink: this.imageLink,
+        baseStat: this.baseStat,
+        individualStat: this.individualStat,
+        effortStat: this.effortStat,
+        natureStat: this.natureStat,
+        moves: this.moves
+      });
     }
 
     setLevel( level: number): void{

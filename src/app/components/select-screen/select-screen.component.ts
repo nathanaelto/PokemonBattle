@@ -19,6 +19,7 @@ export class SelectScreenComponent implements OnInit {
   showImg2: boolean;
   linkImg2: string | undefined;
   pokelist: Pokemon[] = [];
+  generationList: string[] = [];
 
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -34,8 +35,9 @@ export class SelectScreenComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.initForm();
+    this.generationList = await  this.pokemonApi.getAllGenerationNames();
 
-    this.pokelist = await this.pokemonApi.getAllPokemons();
+    //this.pokelist = await this.pokemonApi.getAllPokemons();
 
     console.log(this.pokelist);
   }
@@ -58,6 +60,10 @@ export class SelectScreenComponent implements OnInit {
 
   onCreatePokemon2() {
     this.router.navigate(['/crate']);
+  }
+
+  async selectGeneration(generationName: string) {
+    this.pokelist = await this.pokemonApi.getAllPokemonByGeneration(generationName);
   }
 
   callType1(value: string) {
