@@ -34,6 +34,9 @@ export class SelectScreenComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+
+    console.log(this.pokemonApi.getAllTypeDetails());
+
     this.initForm();
     this.generationList = await  this.pokemonApi.getAllGenerationNames();
 
@@ -43,6 +46,7 @@ export class SelectScreenComponent implements OnInit {
   }
 
   initForm() {
+
     this.pokemonForm = this.formBuilder.group({
       idPokemon1: ['', Validators.required],
       idPokemon2: ['', Validators.required]

@@ -4,6 +4,26 @@ import {Pokemon} from '../../Mechanics/src/pokemon';
 import {PokemonNature} from '../../Mechanics/src/pokemonNature';
 import {PokemonType} from '../../Mechanics/src/PokemonType';
 import {PokemonMove} from '../../Mechanics/src/pokemonMove';
+import {forkJoin, Observable} from 'rxjs';
+import {map, mergeMap, tap} from 'rxjs/operators';
+
+class ApiResultObject{
+  name: string;
+  url: string;
+  constructor(name: string, url: string) {
+    this.name = name;
+    this.url = url;
+  }
+}
+
+class ApiResult {
+  // count: number;
+  results: ApiResultObject[];
+  constructor(results: ApiResultObject[]) {
+    // this.count = count;
+    this.results = results;
+  }
+}
 
 
 class pokemonListItem{
@@ -29,10 +49,10 @@ class pokemonList{
 })
 export class PokemonApiService {
 
-  private pokemons: Pokemon[] = [];
-  private natures: PokemonNature[] = [];
-  private types: PokemonType[] = [];
-  private moves: PokemonMove[] = [];
+  pokemons: Pokemon[] = [];
+  natures: PokemonNature[] = [];
+  types: PokemonType[] = [];
+  moves: PokemonMove[] = [];
 
   private generations: string[] = [];
   private loadedGeneration: string = "";
@@ -40,33 +60,51 @@ export class PokemonApiService {
   constructor(private httpClient: HttpClient) {
   }
 
-  async getAllGenerationNames(): Promise<string[]> {
-    if(this.generations.length == 0) {
-      const generationList = await this.httpClient.get<any>("https://pokeapi.co/api/v2/generation").toPromise();
-      for(let generation of generationList.results){
-        this.generations.push(generation.name);
-      }
-    }
-
-    return this.generations;
+  getAllTypes(): Observable<ApiResult> {
+    return this.httpClient.get<ApiResult>("https://pokeapi.co/api/v2/type");
   }
 
-  async getAllPokemonTypes(): Promise<PokemonType[]> {
-    if(this.types.length == 0){
+  getAllTypeDetails(): Observable<Observable<PokemonType>[]> {
+
+    // return this.getAllTypes().subscribe((apiResult: ApiResult) => {
+    //   return apiResult.results.map(value => {
+    //     return this.getTypeByName(value.name)
+    //   })
+    // })
+
+    return this.getAllTypes().pipe(
+      map((apiResult: ApiResult) => {
+        return apiResult.results.map(value => {
+          return this.getTypeByName(value.name);
+        });
+      })
+    )
+
+  }
+
+
+
+  getTypeByName(name: string): Observable<PokemonType>{
+    return this.httpClient.get<PokemonType>(`https://pokeapi.co/api/v2/type/${name}`);
+  }
+
+
+  async getAllPokemonTypes() {
+    if (this.types.length == 0) {
       const typeList = await this.httpClient.get<pokemonList>("https://pokeapi.co/api/v2/type").toPromise();
 
-      for(let t of typeList.results){
+      for (let t of typeList.results) {
 
-        console.log("load type: "+t.name);
+        console.log("load type: " + t.name);
 
-        const jsonType = await this.httpClient.get<any>("https://pokeapi.co/api/v2/type/"+t.name).toPromise();
-        this.types.push( new PokemonType( t.name, jsonType.move_damage_class?.name, {
-          doubleDamageFrom: jsonType.damage_relations.double_damage_from.map( (v: { name: string; }) =>  v.name ),
-          doubleDamageTo: jsonType.damage_relations.double_damage_to.map( (v: { name: string; }) =>  v.name ),
-          halfDamageFrom: jsonType.damage_relations.half_damage_from.map( (v: { name: string; }) =>  v.name ),
-          halfDamageTo: jsonType.damage_relations.half_damage_to.map( (v: { name: string; }) =>  v.name ),
-          noDamageFrom: jsonType.damage_relations.no_damage_from.map( (v: { name: string; }) =>  v.name ),
-          noDamageTo: jsonType.damage_relations.no_damage_to.map( (v: { name: string; }) =>  v.name )
+        const jsonType = await this.httpClient.get<any>("https://pokeapi.co/api/v2/type/" + t.name).toPromise();
+        this.types.push(new PokemonType(t.name, jsonType.move_damage_class?.name, {
+          doubleDamageFrom: jsonType.damage_relations.double_damage_from.map((v: { name: string; }) => v.name),
+          doubleDamageTo: jsonType.damage_relations.double_damage_to.map((v: { name: string; }) => v.name),
+          halfDamageFrom: jsonType.damage_relations.half_damage_from.map((v: { name: string; }) => v.name),
+          halfDamageTo: jsonType.damage_relations.half_damage_to.map((v: { name: string; }) => v.name),
+          noDamageFrom: jsonType.damage_relations.no_damage_from.map((v: { name: string; }) => v.name),
+          noDamageTo: jsonType.damage_relations.no_damage_to.map((v: { name: string; }) => v.name)
         }));
         console.log("load type: "+t.name +" ended");
       }
@@ -76,7 +114,7 @@ export class PokemonApiService {
 
   async getPokemonType(typeName: string){
     if(this.types.length  == 0 ){
-      this.types  = await this.getAllPokemonTypes();
+      await this.getAllPokemonTypes();
     }
 
     const pokemonType: PokemonType | undefined = this.types.find( type => type.name === typeName);
@@ -173,7 +211,36 @@ export class PokemonApiService {
       pl = await this.httpClient.get<pokemonList>("https://pokeapi.co/api/v2/pokemon?limit=200").toPromise();
 
       for( let i of pl.results){
-        this.pokemons.push( await this.getPokemonByName(i.name));
+        n+=1;
+        const data = await this.httpClient.get<any>("https://pokeapi.co/api/v2/pokemon/"+i.name).toPromise();
+
+        // console.log("test "+n+" : "+ i.name+" "+ data.sprites.front_default);
+        this.pokemons.push(new Pokemon(
+                                  {
+                                    name: "",
+                                    imageLink: data.sprites.front_default,
+                                    pokemonName: i.name,
+                                    type1: await this.getPokemonType( data.types[0].type.name ),
+                                    type2: data.types[1]? await this.getPokemonType( data.types[0].type.name ): undefined,
+                                    nature: new PokemonNature("default", "", ""),
+                                    baseStat: {
+                                      hp: data.stats[0].base_stat,
+                                      attack: data.stats[1].base_stat,
+                                      defense: data.stats[2].base_stat,
+                                      speAttack: data.stats[3].base_stat,
+                                      speDefense: data.stats[4].base_stat,
+                                      speed: data.stats[5].base_stat
+                                    },
+                                    effortStat: {
+                                      hp: data.stats[0].effort,
+                                      attack: data.stats[1].effort,
+                                      defense: data.stats[2].effort,
+                                      speAttack: data.stats[3].effort,
+                                      speDefense: data.stats[4].effort,
+                                      speed: data.stats[5].effort
+                                    }
+                                  })
+        );
       }
     }
 
