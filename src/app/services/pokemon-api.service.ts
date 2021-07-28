@@ -4,7 +4,7 @@ import {Pokemon} from '../../Mechanics/src/pokemon';
 import {PokemonNature} from '../../Mechanics/src/pokemonNature';
 import {PokemonType} from '../../Mechanics/src/PokemonType';
 import {PokemonMove} from '../../Mechanics/src/pokemonMove';
-import {forkJoin, Observable} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {map, mergeMap, tap} from 'rxjs/operators';
 
 export class ApiResultObject{
@@ -42,7 +42,7 @@ export class PokemonApiService {
 
   // pokemons: Pokemon[] = [];
   // natures: PokemonNature[] = [];
-  // types: PokemonType[] = [];
+  types: PokemonType[] = [];
   // moves: PokemonMove[] = [];
 
   private generations: string[] = [];
@@ -67,9 +67,31 @@ export class PokemonApiService {
     return this.httpClient.get<PokemonApi>(`https://pokeapi.co/api/v2/pokemon/${name}`);
   }
 
+  getPokemonType(typeName: string){
+    const pokemonType: PokemonType | undefined = this.types.find( type => type.name === typeName);
+    if( pokemonType === undefined){
+      return this.httpClient.get<any>("https://pokeapi.co/api/v2/type/"+typeName).pipe(
+      map(jsonType => new PokemonType( typeName, jsonType.move_damage_class?.name, {
+        doubleDamageFrom: jsonType.damage_relations.double_damage_from.map( (v: { name: string; }) =>  v.name ),
+        doubleDamageTo: jsonType.damage_relations.double_damage_to.map( (v: { name: string; }) =>  v.name ),
+        halfDamageFrom: jsonType.damage_relations.half_damage_from.map( (v: { name: string; }) =>  v.name ),
+        halfDamageTo: jsonType.damage_relations.half_damage_to.map( (v: { name: string; }) =>  v.name ),
+        noDamageFrom: jsonType.damage_relations.no_damage_from.map( (v: { name: string; }) =>  v.name ),
+        noDamageTo: jsonType.damage_relations.no_damage_to.map( (v: { name: string; }) =>  v.name )
+      }))
+    )
+    }else{
+      return of(pokemonType);
+    }
+  }
+
   getPokemonImageByName(name: string): Observable<any> {
     return this.httpClient.get<any>(`https://pokeapi.co/api/v2/pokemon-form/${name}`);
   }
+
+
+
+
 
 
   // async getAllPokemonTypes() {
