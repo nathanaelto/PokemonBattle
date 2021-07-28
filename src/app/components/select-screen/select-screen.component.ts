@@ -28,6 +28,9 @@ export class SelectScreenComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+
+    console.log(this.pokemonApi.getAllTypeDetails());
+
     this.initForm();
     this.generationList = await  this.pokemonApi.getAllGenerationNames();
 
