@@ -28,15 +28,10 @@ export class SelectScreenComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-
-    console.log(this.pokemonApi.getAllTypeDetails());
-
     this.initForm();
-    this.generationList = await  this.pokemonApi.getAllGenerationNames();
 
     this.pokemonApi.getAllGeneration().subscribe(value => this.generationList = value);
 
-    console.log(this.pokelist);
   }
 
   initForm() {
@@ -62,7 +57,9 @@ export class SelectScreenComponent implements OnInit {
 
   async selectGeneration(generationName: string) {
     //this.pokelist = await this.pokemonApi.getAllPokemonByGeneration(generationName);
-
+    this.pokelist = [];
+    this.poke = undefined;
+    this.poke2 = undefined;
     this.pokemonApi.getAllPokemonByGeneration(generationName).subscribe(value => this.pokelist = value);
     console.log("selectGeneration ended");
   }
