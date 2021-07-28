@@ -26,17 +26,17 @@ export class PokemonCreateComponent implements OnInit {
               private formBuilder: FormBuilder,
               private router: Router) {
     let t = new PokemonType('', '', {});
+
     this.pokemon = new Pokemon(
       {
         name: 'test',
         pokemonName: 'Papilusion',
-        level: 50,
         type1: t,
         nature: new PokemonNature('', null, null),
-        moves: [new PokemonMove("move1", 0, 0, 0, 0, t),
-          new PokemonMove("move2", 0, 0, 0, 0, t),
-          new PokemonMove("move3", 0, 0, 0, 0, t),
-          new PokemonMove("move4", 0, 0, 0, 0, t)],
+        moves: [new PokemonMove("move1", 0, 0, 0, 0, this.types[0]),
+          new PokemonMove("move2", 0, 0, 0, 0, this.types[0]),
+          new PokemonMove("move3", 0, 0, 0, 0, this.types[0]),
+          new PokemonMove("move4", 0, 0, 0, 0, this.types[0])],
         baseStat: {
           hp: 60,
           attack: 45,
@@ -61,8 +61,14 @@ export class PokemonCreateComponent implements OnInit {
     if (this.generation) {
       this.pokemonApiService.getAllPokemonTypeByGeneration(this.generation).subscribe(value => this.types = value);
     } else {
-      this.pokemonApiService.getAllPokemonTypes().subscribe(value => this.types = value);
+      this.pokemonApiService.getAllPokemonTypes().subscribe(value => {
+        this.types = value;
+        for(let i = 0; i<4; i++){
+          this.pokemon.moves[i].type = this.types[0];
+        }
+      });
     }
+
     this.pokemonApiService.getAllPokemonNature().subscribe(value => {
       this.natures = value;
       if (this.pokemon.nature.name === '') {
@@ -74,7 +80,7 @@ export class PokemonCreateComponent implements OnInit {
       name: ['', Validators.required],
       nature: [this.pokemon.nature.name, Validators.required],
       type1: [this.pokemon.type1.name, Validators.required],
-      level: [this.pokemon.type1.name, Validators.required],
+      level: [this.pokemon.level, [Validators.required, Validators.max(100), Validators.min(0)] ],
       type2: [this.pokemon.type2?.name]
     });
   }

@@ -7,18 +7,18 @@
   </div>
 
   <div class="row">
-    <label>Power : </label>
-    <input type="number" min="{{0}}" max="{{100}}" id="power" class="form-control" formControlName="power">
+    <label>Power : {{this.move.power}}</label>
+    <input type="range" min="{{0}}" max="{{100}}" id="power" class="form-control" formControlName="power">
   </div>
 
   <div class="row">
-    <label>Accuracy : </label>
-    <input type="number" min="{{0}}" max="{{100}}" id="accuracy" class="form-control" formControlName="accuracy">
+    <label>Accuracy : {{this.move.accuracy}} </label>
+    <input type="range" min="{{0}}" max="{{100}}" id="accuracy" class="form-control" formControlName="accuracy">
   </div>
 
   <div class="row">
-    <label>priority : </label>
-    <input type="number" min="{{0}}" max="{{100}}" id="priority" class="form-control" formControlName="priority">
+    <label>priority : {{this.move.priority}}</label>
+    <input type="range" min="{{0}}" max="{{100}}" id="priority" class="form-control" formControlName="priority">
   </div>
 
   <div class="row">

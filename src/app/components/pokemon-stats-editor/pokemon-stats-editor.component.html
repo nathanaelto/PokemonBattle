@@ -2,33 +2,33 @@
 
   <form  *ngIf="statForm && stat" [formGroup]="statForm">
     <div class="row">
-        <label>HP : </label>
-        <input type="number" min="{{min}}" max="{{max}}" id="hp" class="form-control" formControlName="hp">
+        <label>HP : {{this.stat.hp}}</label>
+        <input type="range" min="{{min}}" max="{{max}}" step="{{step}}" id="hp" class="form-control" formControlName="hp">
     </div>
 
     <div class="row">
-      <label>Attack : </label>
-      <input type="number" min="{{min}}" max="{{max}}" id="attack" class="form-control" formControlName="attack">
+      <label>Attack : {{this.stat.attack}}</label>
+      <input type="range" min="{{min}}" max="{{max}}" step="{{step}}" id="attack" class="form-control" formControlName="attack">
     </div>
 
     <div class="row">
-      <label>Defense : </label>
-      <input type="number" min="{{min}}" max="{{max}}" id="defense" class="form-control" formControlName="defense">
+      <label>Defense : {{this.stat.defense}}</label>
+      <input type="range" min="{{min}}" max="{{max}}" step="{{step}}" id="defense" class="form-control" formControlName="defense">
     </div>
 
     <div class="row">
-      <label>Speed : </label>
-      <input type="number" min="{{min}}" max="{{max}}" id="speed" class="form-control" formControlName="speed">
+      <label>Speed : {{this.stat.speed}}</label>
+      <input type="range" min="{{min}}" max="{{max}}" step="{{step}}" id="speed" class="form-control" formControlName="speed">
     </div>
 
     <div class="row">
-      <label>Spe Attack : </label>
-      <input type="number" min="{{min}}" max="{{max}}" id="speAttack" class="form-control" formControlName="speAttack">
+      <label>Spe Attack : {{this.stat.speAttack}}</label>
+      <input type="range" min="{{min}}" max="{{max}}" step="{{step}}" id="speAttack" class="form-control" formControlName="speAttack">
     </div>
 
     <div class="row">
-      <label>Spe Defense : </label>
-      <input type="number" min="{{min}}" max="{{max}}" id="speDefense" class="form-control" formControlName="speDefense">
+      <label>Spe Defense : {{this.stat.speDefense}}</label>
+      <input type="range" min="{{min}}" max="{{max}}" step="{{step}}" id="speDefense" class="form-control" formControlName="speDefense">
     </div>
   </form>
 

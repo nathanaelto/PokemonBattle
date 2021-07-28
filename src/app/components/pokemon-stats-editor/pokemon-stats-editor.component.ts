@@ -16,6 +16,7 @@ export class PokemonStatsEditorComponent implements OnInit, OnChanges {
   @Input() stat: PokemonStat | undefined;
   @Input() min: number = 0;
   @Input() max: number = 255;
+  @Input() step: number = 1;
   constructor(private formBuilder: FormBuilder) { }
   ngOnInit(): void {
     this.statForm = this.formBuilder.group({

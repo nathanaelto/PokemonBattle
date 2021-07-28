@@ -25,24 +25,23 @@
   </select>
 
   <div class="row ">
-
     <div class="col">
-      <app-pokemon-move-editor [move]="this.pokemon.moves[0]"></app-pokemon-move-editor>
+      <app-pokemon-move-editor [move]="this.pokemon.moves[0]" id="move1" ></app-pokemon-move-editor>
     </div>
     <div class="col">
-      <app-pokemon-move-editor [move]="this.pokemon.moves[1]"></app-pokemon-move-editor>
+      <app-pokemon-move-editor [move]="this.pokemon.moves[1]" id="move2" ></app-pokemon-move-editor>
     </div>
     <div class="col">
-      <app-pokemon-move-editor [move]="this.pokemon.moves[2]"></app-pokemon-move-editor>
+      <app-pokemon-move-editor [move]="this.pokemon.moves[2]" id="move3" ></app-pokemon-move-editor>
     </div>
     <div class="col">
-      <app-pokemon-move-editor [move]="this.pokemon.moves[3]"></app-pokemon-move-editor>
+      <app-pokemon-move-editor [move]="this.pokemon.moves[3]" id="move4" ></app-pokemon-move-editor>
     </div>
   </div>
 
   <div class="row">
-    <label>Level : </label>
-    <input type="number" min="0" max="100" id="level" class="form-control" formControlName="level" #l (change)="setPokemonLevel(l.value)">
+    <label>Level : {{this.pokemon.level}}</label>
+    <input type="range" min="0" max="100" id="level" class="form-control" formControlName="level" #l (change)="setPokemonLevel(l.value)">
   </div>
 
   <div class="row">
@@ -63,7 +62,7 @@
     </div>
     <div class="col">
       <label>Nature : </label>
-      <app-pokemon-stats-editor [stat]="this.pokemon.natureStat" [min]="0.9" [max]="1.1"
+      <app-pokemon-stats-editor [stat]="this.pokemon.natureStat" [min]="0.9" [max]="1.1" [step]="0.1"
                                 (change)="this.pokemon.calculateStat()"></app-pokemon-stats-editor>
     </div>
     <div class="col">
