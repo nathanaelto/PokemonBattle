@@ -4,6 +4,78 @@ import {Pokemon} from '../../Mechanics/src/pokemon';
 import {PokemonNature} from '../../Mechanics/src/pokemonNature';
 import {PokemonType} from '../../Mechanics/src/PokemonType';
 import {PokemonMove} from '../../Mechanics/src/pokemonMove';
+import {concatMap, filter, map, switchMap, tap} from 'rxjs/operators';
+import {forkJoin, Observable, of} from 'rxjs';
+import {flatMap} from 'rxjs/internal/operators';
+
+
+interface MoveApi{
+  name: string;
+  accuracy: number;
+  power: number;
+  pp: number;
+  priority: number;
+  type: NameUrl;
+}
+
+interface PokemonSpecieData{
+  id: string;
+}
+
+interface NameUrl{
+  name: string;
+  url: string;
+}
+
+interface PokemonDataMovesItem{
+  move: NameUrl;
+  version_group_details: any[];
+}
+
+
+interface PokemonDataTypesItem{
+  slot: number;
+  type: NameUrl;
+}
+
+interface PokemonSprite{
+  front_default: string;
+}
+
+interface PokemonStatsItem{
+  base_stat: number;
+  effort: number;
+  stat: NameUrl;
+}
+
+interface PokemonData{
+  id: string;
+  name: string;
+  moves: PokemonDataMovesItem[];
+  types: PokemonDataTypesItem[];
+  sprites: PokemonSprite;
+  stats: PokemonStatsItem[];
+}
+
+interface PokemonGenerationList{
+  count: number;
+  results: NameUrl[];
+}
+
+interface PokemonGeneration{
+  id: number;
+  pokemon_species: NameUrl[];
+}
+
+interface PokemonForm{
+  name: string;
+  sprites: PokemonSprite;
+}
+
+export interface PokemonImg{
+  name: string,
+  imgLink: string
+}
 
 
 class pokemonListItem{
@@ -74,98 +146,136 @@ export class PokemonApiService {
     return this.types;
   }
 
-  async getPokemonType(typeName: string){
-    if(this.types.length  == 0 ){
-      this.types  = await this.getAllPokemonTypes();
-    }
-
+  getPokemonType(typeName: string){
     const pokemonType: PokemonType | undefined = this.types.find( type => type.name === typeName);
     if( pokemonType === undefined){
-      throw new Error("Unknown pokemon type: " + typeName);
+      return this.httpClient.get<any>("https://pokeapi.co/api/v2/type/"+typeName).pipe(
+        map(jsonType => new PokemonType( typeName, jsonType.move_damage_class?.name, {
+          doubleDamageFrom: jsonType.damage_relations.double_damage_from.map( (v: { name: string; }) =>  v.name ),
+          doubleDamageTo: jsonType.damage_relations.double_damage_to.map( (v: { name: string; }) =>  v.name ),
+          halfDamageFrom: jsonType.damage_relations.half_damage_from.map( (v: { name: string; }) =>  v.name ),
+          halfDamageTo: jsonType.damage_relations.half_damage_to.map( (v: { name: string; }) =>  v.name ),
+          noDamageFrom: jsonType.damage_relations.no_damage_from.map( (v: { name: string; }) =>  v.name ),
+          noDamageTo: jsonType.damage_relations.no_damage_to.map( (v: { name: string; }) =>  v.name )
+        }))
+      )
     }else{
-      return pokemonType;
+      return of(pokemonType);
     }
   }
 
-  async getAllPokemonByGeneration(generationName: string): Promise<Pokemon[]> {
-    if( this.loadedGeneration !== generationName){
-      this.pokemons = [];
-      const data = await this.httpClient.get<any>("https://pokeapi.co/api/v2/generation/"+generationName).toPromise();
+  getAllPokemonByGeneration(generationName: string): Observable<PokemonImg[]> {
+    return this.httpClient.get<PokemonGeneration>("https://pokeapi.co/api/v2/generation/"+generationName).pipe(
+      switchMap(value => forkJoin( value.pokemon_species.map(value1 => {
+          let l = value1.url.split("/");
+          return this.getPokemonImg(l[l.length-2])
+        }) )
+      )
+    )
+  }
 
-      for(let pokemon of data.pokemon_species){
-        this.pokemons.push( await this.getPokemonByName(pokemon.name));
-      }
+  getAllGeneration() {
+    return this.httpClient.get<PokemonGenerationList>("https://pokeapi.co/api/v2/generation/").pipe(
+      map(value => value.results.map(value1 => value1.name))
+    )
+  }
 
-      this.loadedGeneration = generationName;
-    }
-
-    return this.pokemons;
+  getPokemonImg(pokemon: string): Observable<PokemonImg>{
+    return this.httpClient.get<PokemonForm>("https://pokeapi.co/api/v2/pokemon-form/"+pokemon).pipe(
+      map(value => {
+        return{
+          name: value.name,
+          imgLink: value.sprites.front_default
+        }
+      })
+    )
   }
 
   /**
    *
-   * @param pokemonName or pokemonID
+   * @param pokemonSpeciesName or ID
    */
-  async getPokemonByName(pokemonName: string){
-
-    console.log("loading pokemon:  "+pokemonName);
-    const speciesData = await this.httpClient.get<any>("https://pokeapi.co/api/v2/pokemon-species/"+pokemonName).toPromise();
-    const pokemonID = speciesData.id;
-
-    const data = await this.httpClient.get<any>("https://pokeapi.co/api/v2/pokemon/"+pokemonID).toPromise();
-
-    const numberOfPossibleMove = data.moves.length;
-
-    //load all the pokemon move that deals damage
-    let allPossibleMoves: PokemonMove[] = [];
-    for(let i = 0; i<numberOfPossibleMove; i++) {
-      let move = await this.getMove(data.moves[i].move.name);
-      if(move.accuracy !== null || move.power !== null)
-        allPossibleMoves.push(move);
-    }
-
-    let moves: PokemonMove[] = [];
-
-    if(allPossibleMoves.length>0){
-      let nbMove = Math.min(4, allPossibleMoves.length);
-      for(let i = 0; i<nbMove; i++){
-        let rand = Math.floor(Math.random() * allPossibleMoves.length);
-        moves.push( allPossibleMoves[rand]);
-      }
-    }else{
-      moves.push( await this.getMove("pound"));
-    }
-
-    console.log("loading pokemon:  "+pokemonName +" ended");
-    return new Pokemon(
-      {
-        name: "",
-        imageLink: data.sprites.front_default,
-        pokemonName: data.name,
-        level:50,
-        moves,
-        type1: await this.getPokemonType( data.types[0].type.name ),
-        type2: data.types[1]? await this.getPokemonType( data.types[0].type.name ): undefined,
-        nature: new PokemonNature("default", "", ""),
-        baseStat: {
-          hp: data.stats[0].base_stat,
-          attack: data.stats[1].base_stat,
-          defense: data.stats[2].base_stat,
-          speAttack: data.stats[3].base_stat,
-          speDefense: data.stats[4].base_stat,
-          speed: data.stats[5].base_stat
-        },
-        effortStat: {
-          hp: data.stats[0].effort,
-          attack: data.stats[1].effort,
-          defense: data.stats[2].effort,
-          speAttack: data.stats[3].effort,
-          speDefense: data.stats[4].effort,
-          speed: data.stats[5].effort
-        }
-      });
+  getPokemonSpecies(pokemonSpeciesName: string){
+    return this.httpClient.get<PokemonSpecieData>("https://pokeapi.co/api/v2/pokemon-species/"+pokemonSpeciesName);
   }
 
+  /**
+   *
+   * @param pokemon name or id
+   */
+  getPokemonData(pokemon: string){
+    return this.httpClient.get<PokemonData>("https://pokeapi.co/api/v2/pokemon/"+pokemon);
+  }
+
+  getPokemon2(pokemon: string){
+    this.getPokemonSpecies(pokemon).pipe(
+      switchMap((value, index) => this.getPokemonData(value.id)),
+      switchMap((value, index) => {
+        return value.moves.map( value =>  this.getMove(value.move.name))
+      })
+    ).subscribe(value => {
+
+    });
+
+  }
+
+
+  getPokemonByName(pokemonName: string){
+    return this.getPokemonSpecies(pokemonName).pipe(
+      switchMap(speciesData => this.getPokemonData(speciesData.id).pipe(
+          switchMap(pokemonData => forkJoin( pokemonData.types.map(value2 => this.getPokemonType(value2.type.name))).pipe(
+              switchMap(types => forkJoin(pokemonData.moves.map(value3 => this.getMove(value3.move.name))).pipe(
+                map(movesData => {
+                  movesData = movesData.filter(value => value.power !== null && value.accuracy !== null);
+                  let moves: PokemonMove[] = [];
+                  let nb = movesData.length;
+                  if(nb > 4){
+                    for(let i = 0; i<4; i++)
+                      moves.push( movesData[ Math.floor( Math.random() * nb ) ]);
+                  }else if(nb <= 0){
+                    moves.push( new PokemonMove("default", 100, 50, 15, 0, types[0]));
+                  }else{
+                    moves = movesData;
+                  }
+
+                  return new Pokemon(
+                    {
+                      name: "",
+                      imageLink: pokemonData.sprites.front_default,
+                      pokemonName: pokemonData.name,
+                      level:50,
+                      moves,
+                      type1: types[0],
+                      type2: undefined,
+                      nature: new PokemonNature("default", "", ""),
+                      baseStat: {
+                        hp: pokemonData.stats[0].base_stat,
+                        attack: pokemonData.stats[1].base_stat,
+                        defense: pokemonData.stats[2].base_stat,
+                        speAttack: pokemonData.stats[3].base_stat,
+                        speDefense: pokemonData.stats[4].base_stat,
+                        speed: pokemonData.stats[5].base_stat
+                      },
+                      effortStat: {
+                        hp: pokemonData.stats[0].effort,
+                        attack: pokemonData.stats[1].effort,
+                        defense: pokemonData.stats[2].effort,
+                        speAttack: pokemonData.stats[3].effort,
+                        speDefense: pokemonData.stats[4].effort,
+                        speed: pokemonData.stats[5].effort
+                      }
+                    })
+                  })
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  }
+
+/*
   async getAllPokemons(): Promise<Pokemon[]> {
 
     if( this.pokemons.length == 0){
@@ -179,21 +289,28 @@ export class PokemonApiService {
 
     return this.pokemons;
   }
+*/
 
-  async getMove(moveName: string){
+  getMove(moveName: string){
     let move: PokemonMove |undefined = this.moves.find(value => value.name === moveName);
     if( move === undefined){
-      const data = await this.httpClient.get<any>("https://pokeapi.co/api/v2/move/"+moveName).toPromise();
-      console.log("Move: "+ moveName+" acc: "+ data.accuracy+" p: "+data.power+"  prio: "+ data.priority);
-      move = new PokemonMove(moveName, data.accuracy, data.power, data.pp, data.priority, await this.getPokemonType(data.type.name))
-      this.moves.push(move);
-      console.log("Move: "+ moveName+" ended");
-      return move;
+
+      return this.httpClient.get<MoveApi>("https://pokeapi.co/api/v2/move/"+moveName).pipe(
+        switchMap(data => {
+            return this.getPokemonType(data.type.name).pipe(
+              map(type => new PokemonMove(moveName, data.accuracy, data.power, data.pp, data.priority, type) ),
+              tap(x => this.moves.push(x))
+            )
+          }
+        )
+      )
     }else{
-      return move;
+      return of(move);
     }
   }
 
+  //new PokemonMove(moveName, data.accuracy, data.power, data.pp, data.priority, type )
+  /*
   async getPokemon(name: string): Promise<Pokemon | undefined>{
 
     let pokemons = await this.getAllPokemons();
@@ -205,6 +322,6 @@ export class PokemonApiService {
       return poke.copy();
     }
 
-  }
+  }*/
 }
 

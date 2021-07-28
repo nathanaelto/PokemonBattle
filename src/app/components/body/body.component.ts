@@ -121,7 +121,7 @@ export class BodyComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let pn1 = this.route.snapshot.paramMap.get('idPokemon1');
+  /*  let pn1 = this.route.snapshot.paramMap.get('idPokemon1');
     if( pn1 !== null){
       let p1 = await this.pokemonApiService.getPokemon( pn1 );
       if( p1 !== undefined)
@@ -132,7 +132,7 @@ export class BodyComponent implements OnInit {
       let p2 = await this.pokemonApiService.getPokemon( pn2 );
       if( p2 !== undefined)
         this.pokemon2 = p2;
-    }
+    }*/
   }
 
   // tslint:disable-next-line:typedef
