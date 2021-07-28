@@ -1,0 +1,14 @@
+<div class="my-overlay row" *ngIf="showOverlay" >
+  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>
+
+<div class="row" *ngIf="pokemonList.length === count && count > 0">
+  <div *ngFor="let pokemon of pokemonList">
+    <div class="col-4">
+      <img [src]="pokemon.imgLink" [alt]="pokemon.name">
+    </div>
+    <div class="col-8">
+      <h6>{{pokemon.name}}</h6>
+    </div>
+  </div>
+</div>

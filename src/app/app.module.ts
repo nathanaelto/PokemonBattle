@@ -18,6 +18,7 @@ import { PokemonStatsDisplayComponent } from './components/pokemon-stats-display
 import {PokemonApiService} from './services/pokemon-api.service';
 import {HttpClientModule} from '@angular/common/http';
 import { PokemonMoveDisplayComponent } from './components/pokemon-move-display/pokemon-move-display.component';
+import { ChoosePokemonComponent } from './components/choose-pokemon/choose-pokemon.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { PokemonMoveDisplayComponent } from './components/pokemon-move-display/p
     PokemonCreateComponent,
     PokemonStatsDisplayComponent,
     PokemonMoveDisplayComponent,
+    ChoosePokemonComponent,
   ],
   imports: [
     FormsModule,

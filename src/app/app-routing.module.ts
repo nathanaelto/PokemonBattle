@@ -5,14 +5,16 @@ import {NotFoundComponent} from "./components/not-found/not-found.component";
 import {WinnerScreenComponent} from "./components/winner-screen/winner-screen.component";
 import {BodyComponent} from "./components/body/body.component";
 import {PokemonCreateComponent} from './components/pokemon-create/pokemon-create.component';
+import {ChoosePokemonComponent} from './components/choose-pokemon/choose-pokemon.component';
 
 const routes: Routes = [
+  {path: 'choose', component: ChoosePokemonComponent},
   {path: 'create', component: PokemonCreateComponent},
   {path: 'select', component: SelectScreenComponent},
   {path: 'fight/:idPokemon1/:idPokemon2', component: BodyComponent},
   {path: 'winner', component: WinnerScreenComponent},
   {path: 'not-found', component: NotFoundComponent},
-  {path: '', redirectTo: "select", pathMatch:'full'},
+  {path: '', redirectTo: "choose", pathMatch:'full'},
   {path: "**", redirectTo: "not-found"},
 ];
 
