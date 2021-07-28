@@ -10,27 +10,32 @@
     </div>
 
     <div class="row hidden-md-down">
+
       <div class="col-6">
         <label for="idPokemon1">First pokemon</label>
-        <img *ngIf="poke" src="{{poke.imgLink}}" alt="{{poke.imgLink}}" width="500" height="600">
+        <img *ngIf="poke1" src="{{poke1.imgLink}}" alt="{{poke1.imgLink}}" width="500" height="600">
         <select id="idPokemon1" class="form-control" formControlName="idPokemon1" #t (change)="callType1(t.value)">
-          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.name}}">{{pokemon.name}}</option>
+          <option *ngFor="let pokemon of createdPokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
+          <option *ngFor="let pokemon of pokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
         </select>
       </div>
+
       <div class="col-6">
         <label for="idPokemon2">Second pokemon</label>
         <img *ngIf="poke2" src="{{poke2.imgLink}}" alt="{{poke2.imgLink}}" width="500" height="600">
         <select id="idPokemon2" class="form-control" formControlName="idPokemon2" #d (change)="callType2(d.value)">
-          <option *ngFor="let pokemon of pokelist;" value="{{pokemon.name}}">{{pokemon.name}}</option>
+          <option *ngFor="let pokemon of createdPokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
+          <option *ngFor="let pokemon of pokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
         </select>
       </div>
 
       <div class="col-6">
-        <button type="submit" class="btn btn-primary" (click)="onCreatePokemon1()">Create Pokemon</button>
+        <button type="button" class="btn btn-primary" (click)="onCreatePokemon1()">Create Pokemon</button>
+        <app-pokemon-create *ngIf="pokemonCreator1 && generation" [generation]="generation"></app-pokemon-create>
       </div>
 
       <div class="col-6">
-        <button type="submit" class="btn btn-primary" (click)="onCreatePokemon1()">Create Pokemon</button>
+        <button type="button" class="btn btn-primary" (click)="onCreatePokemon1()">Create Pokemon</button>
       </div>
 
     </div>

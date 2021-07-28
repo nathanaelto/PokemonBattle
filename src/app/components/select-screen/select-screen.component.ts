@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PokemonApiService, PokemonImg} from '../../services/pokemon-api.service';
+import {Pokemon} from '../../../Mechanics/src/pokemon';
 
 @Component({
   selector: 'app-select-screen',
@@ -10,12 +11,17 @@ import {PokemonApiService, PokemonImg} from '../../services/pokemon-api.service'
 })
 export class SelectScreenComponent implements OnInit {
 
-  poke: PokemonImg | undefined;
+  poke1: PokemonImg | undefined;
   poke2: PokemonImg | undefined;
 
   pokemonForm!: FormGroup;
+  generation: string | undefined;
 
-  pokelist: PokemonImg[] = [];
+  pokemonCreator1: boolean = false;
+  pokemonCreator2: boolean = false;
+
+  pokeList: PokemonImg[] = [];
+  createdPokeList: Pokemon[] = [];
   generationList: string[] = [];
 
   constructor(private formBuilder: FormBuilder,
@@ -29,8 +35,9 @@ export class SelectScreenComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.initForm();
-
     this.pokemonApi.getAllGeneration().subscribe(value => this.generationList = value);
+
+    this.createdPokeList = this.pokemonApi.getCreatedPokemon();
 
   }
 
@@ -48,30 +55,29 @@ export class SelectScreenComponent implements OnInit {
   }
 
   onCreatePokemon1() {
-    this.router.navigate(['/crate']);
+    this.router.navigate(['/create']);
   }
 
   onCreatePokemon2() {
-    this.router.navigate(['/crate']);
+    this.router.navigate(['/create']);
   }
 
   async selectGeneration(generationName: string) {
-    //this.pokelist = await this.pokemonApi.getAllPokemonByGeneration(generationName);
-    this.pokelist = [];
-    this.poke = undefined;
+    this.pokeList = [];
+    this.poke1 = undefined;
     this.poke2 = undefined;
-    this.pokemonApi.getAllPokemonByGeneration(generationName).subscribe(value => this.pokelist = value);
-    console.log("selectGeneration ended");
+    this.generation = generationName;
+    this.pokemonApi.getAllPokemonByGeneration(generationName).subscribe(value => this.pokeList = value);
   }
 
   callType1(value: string) {
-    this.poke = this.pokelist.filter((poke) => {
+    this.poke1 = this.pokeList.filter((poke) => {
       return poke.name === value;
     }).pop();
   }
 
   callType2(value: string) {
-    this.poke2 = this.pokelist.filter((poke) => {
+    this.poke2 = this.pokeList.filter((poke) => {
       return poke.name === value;
     }).pop();
   }

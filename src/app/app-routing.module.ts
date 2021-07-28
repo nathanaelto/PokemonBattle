@@ -9,6 +9,7 @@ import {PokemonCreateComponent} from './components/pokemon-create/pokemon-create
 const routes: Routes = [
   {path: 'create', component: PokemonCreateComponent},
   {path: 'select', component: SelectScreenComponent},
+  {path: 'create', component: PokemonCreateComponent},
   {path: 'fight/:idPokemon1/:idPokemon2', component: BodyComponent},
   {path: 'winner', component: WinnerScreenComponent},
   {path: 'not-found', component: NotFoundComponent},

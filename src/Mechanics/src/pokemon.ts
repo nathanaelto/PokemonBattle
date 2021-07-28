@@ -1,5 +1,5 @@
 import {PokemonMove} from "./pokemonMove";
-import { PokemonNature, pokemonNatureToStat} from "./pokemonNature";
+import { PokemonNature} from "./pokemonNature";
 import { PokemonType} from "./PokemonType";
 
 const maxIndividualStat: number = 32;
@@ -34,39 +34,6 @@ export interface IPokemonInitializer{
 
     moves?: PokemonMove[];
 }
-/*
-export async function getPokemonFromApi(name: string, pokemonName: string){
-    const data = await P.getPokemonByName(pokemonName);
-
-    return new Pokemon(
-        {
-            name,
-            pokemonName,
-            type1: await getPokemonType( data.types[0].type.name ),
-            type2: data.types[1]? await getPokemonType( data.types[0].type.name ): undefined,
-            nature: await getRandomNature(),
-            baseStat: {
-                hp: data.stats[0].base_stat,
-                attack: data.stats[1].base_stat,
-                defense: data.stats[2].base_stat,
-                speAttack: data.stats[3].base_stat,
-                speDefense: data.stats[4].base_stat,
-                speed: data.stats[5].base_stat
-            },
-            effortStat: {
-                hp: data.stats[0].effort,
-                attack: data.stats[1].effort,
-                defense: data.stats[2].effort,
-                speAttack: data.stats[3].effort,
-                speDefense: data.stats[4].effort,
-                speed: data.stats[5].effort
-            }
-        }
-
-    );
-
-}
-*/
 
 export class Pokemon {
     pokemonName: string;
@@ -86,8 +53,8 @@ export class Pokemon {
     accuracyStatStage: number;
     battleStat: PokemonStat;
 
-    private baseStat: PokemonStat;
-    private individualStat: PokemonStat;
+    baseStat: PokemonStat;
+    individualStat: PokemonStat;
     effortStat: PokemonStat;
     natureStat: PokemonStat;
 
@@ -133,12 +100,12 @@ export class Pokemon {
             this.individualStat = args.individualStat;
         }else{
             this.individualStat = {
-                hp: Math.random()*maxIndividualStat,
-                attack: Math.random()*maxIndividualStat,
-                defense: Math.random()*maxIndividualStat,
-                speAttack: Math.random()*maxIndividualStat,
-                speDefense: Math.random()*maxIndividualStat,
-                speed: Math.random()*maxIndividualStat,
+                hp: Math.floor( Math.random()*maxIndividualStat),
+                attack: Math.floor(Math.random()*maxIndividualStat),
+                defense: Math.floor(Math.random()*maxIndividualStat),
+                speAttack: Math.floor(Math.random()*maxIndividualStat),
+                speDefense: Math.floor(Math.random()*maxIndividualStat),
+                speed: Math.floor(Math.random()*maxIndividualStat),
             }
         }
 
@@ -157,10 +124,10 @@ export class Pokemon {
 
         if( args.natureStat !== undefined) {
             this.natureStat = args.natureStat;
-            this.nature = new PokemonNature('personalized', "", "");
+            this.nature = new PokemonNature('', "", "");
         }else if (args.nature !== undefined){
             this.nature = args.nature;
-            this.natureStat = pokemonNatureToStat(args.nature);
+            this.natureStat = args.nature.pokemonNatureToStat();
         }else{
             this.nature = new PokemonNature('default', "", "");
             this.natureStat = {
@@ -208,14 +175,24 @@ export class Pokemon {
 
     setLevel( level: number): void{
         this.level = level;
+        this.calculateStat();
+    }
 
-        this.stats.attack = Math.floor( Math.floor((2 * this.baseStat.attack + this.individualStat.attack + this.effortStat.attack) * level / 100 + 5)* this.natureStat.attack );
-        this.stats.defense = Math.floor( Math.floor((2 * this.baseStat.defense + this.individualStat.defense + this.effortStat.defense) * level / 100 + 5)* this.natureStat.defense );
-        this.stats.speAttack = Math.floor( Math.floor((2 * this.baseStat.speAttack + this.individualStat.speAttack + this.effortStat.speAttack) * level / 100 + 5)* this.natureStat.speAttack );
-        this.stats.speDefense = Math.floor( Math.floor((2 * this.baseStat.speDefense + this.individualStat.speDefense + this.effortStat.speDefense) * level / 100 + 5)* this.natureStat.speDefense );
-        this.stats.speed = Math.floor( Math.floor((2 * this.baseStat.speed + this.individualStat.speed + this.effortStat.speed) * level / 100 + 5)* this.natureStat.speed );
+    setNature(nature: PokemonNature){
+      this.nature = nature;
+      this.natureStat = this.nature.pokemonNatureToStat();
+      this.calculateStat();
+    }
 
-        this.stats.hp = Math.floor( (2 * this.baseStat.hp + this.individualStat.hp + this.effortStat.hp) * level / 100 + level + 10 );
+    calculateStat(){
+      this.stats = {
+        attack: Math.floor(Math.floor((2 * this.baseStat.attack + this.individualStat.attack + this.effortStat.attack) * this.level / 100 + 5) * this.natureStat.attack),
+        defense: Math.floor(Math.floor((2 * this.baseStat.defense + this.individualStat.defense + this.effortStat.defense) * this.level / 100 + 5) * this.natureStat.defense),
+        speAttack: Math.floor(Math.floor((2 * this.baseStat.speAttack + this.individualStat.speAttack + this.effortStat.speAttack) * this.level / 100 + 5) * this.natureStat.speAttack),
+        speDefense: Math.floor(Math.floor((2 * this.baseStat.speDefense + this.individualStat.speDefense + this.effortStat.speDefense) * this.level / 100 + 5) * this.natureStat.speDefense),
+        speed: Math.floor(Math.floor((2 * this.baseStat.speed + this.individualStat.speed + this.effortStat.speed) * this.level / 100 + 5) * this.natureStat.speed),
+        hp: Math.floor((2 * this.baseStat.hp + this.individualStat.hp + this.effortStat.hp) * this.level / 100 + this.level + 10),
+      }
     }
 
     doesItHit(move: PokemonMove, target: Pokemon): boolean{

@@ -5,7 +5,7 @@
     </div>
     <div class="col-4">
       <p>VS</p>
-      <button type="button" (click)="launch()">{{play ? 'Pause' : 'Start'}}</button>
+      <button *ngIf="pokemon1 && pokemon2" type="button" (click)="launch()">{{play ? 'Pause' : 'Start'}}</button>
     </div>
     <div class="col-4">
       <app-pokemon-display [pokemon]="pokemon2"></app-pokemon-display>
@@ -14,7 +14,7 @@
 
 <div class="row">
   <div class="col-6">
-    <div class="grid-container">
+    <div *ngIf="pokemon1" class="grid-container">
       <div>
         <app-pokemon-move-display [pokemonMove]="pokemon1.moves[0]"></app-pokemon-move-display>
       </div>
@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="col-6">
-    <div class="grid-container">
+    <div *ngIf="pokemon2"  class="grid-container">
       <div>
         <app-pokemon-move-display [pokemonMove]="pokemon2.moves[0]"></app-pokemon-move-display>
       </div>

@@ -1,0 +1,31 @@
+
+<div class="row">
+<form  *ngIf="moveForm && move" [formGroup]="moveForm" >
+  <div class="row">
+    <label>Name : </label>
+    <input type="text" min="{{0}}" max="{{100}}" id="name" class="form-control" formControlName="name">
+  </div>
+
+  <div class="row">
+    <label>Power : </label>
+    <input type="number" min="{{0}}" max="{{100}}" id="power" class="form-control" formControlName="power">
+  </div>
+
+  <div class="row">
+    <label>Accuracy : </label>
+    <input type="number" min="{{0}}" max="{{100}}" id="accuracy" class="form-control" formControlName="accuracy">
+  </div>
+
+  <div class="row">
+    <label>priority : </label>
+    <input type="number" min="{{0}}" max="{{100}}" id="priority" class="form-control" formControlName="priority">
+  </div>
+
+  <div class="row">
+    <label>Type : </label>
+    <select id="type" class="form-control" formControlName="type">
+      <option *ngFor="let type of types" [value]="type.name">{{type.name}}</option>
+    </select>
+  </div>
+</form>
+</div>

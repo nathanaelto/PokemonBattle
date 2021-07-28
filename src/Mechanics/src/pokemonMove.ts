@@ -1,12 +1,5 @@
 import { PokemonType} from "./PokemonType";
 
-/*
-export async function getMoveFromApi(name: string){
-    let data = await P.getMoveByName(name);
-    return new PokemonMove(name, data.accuracy, data.power, data.pp, data.priority, await getPokemonType(data.type.name))
-}
-*/
-
 export class PokemonMove {
 
     name: string;

@@ -1,9 +1,83 @@
+<form *ngIf="pokemonForm && pokemon" [formGroup]="pokemonForm" (ngSubmit)="onSubmitForm()">
+  <div class="row">
+    <label>Name : </label>
+    <input type="text" id="name" class="form-control" formControlName="name">
+  </div>
 
-<p>pokemon-create works!</p>
+  <div class="row">
+    <div class="col">
+      <label>Type1 : </label>
+      <select id="type1" class="form-control" formControlName="type1">
+        <option *ngFor="let type of types" [value]="type.name">{{type.name}}</option>
+      </select>
+    </div>
+    <div class="col">
+      <label>Type2 : </label>
+      <select id="type2" class="form-control" formControlName="type2">
+        <option></option>
+        <option *ngFor="let type of types" [value]="type.name">{{type.name}}</option>
+      </select>
+    </div>
+  </div>
+  <label>Nature : </label>
+  <select id="nature" class="form-control" formControlName="nature" #t (change)="setNature(t.value)">
+    <option *ngFor="let nature of natures" [value]="nature.name">{{nature.name}}</option>
+  </select>
 
-<div>
+  <div class="row ">
+
+    <div class="col">
+      <app-pokemon-move-editor [move]="this.pokemon.moves[0]"></app-pokemon-move-editor>
+    </div>
+    <div class="col">
+      <app-pokemon-move-editor [move]="this.pokemon.moves[1]"></app-pokemon-move-editor>
+    </div>
+    <div class="col">
+      <app-pokemon-move-editor [move]="this.pokemon.moves[2]"></app-pokemon-move-editor>
+    </div>
+    <div class="col">
+      <app-pokemon-move-editor [move]="this.pokemon.moves[3]"></app-pokemon-move-editor>
+    </div>
+  </div>
+
+  <div class="row">
+    <label>Level : </label>
+    <input type="number" min="0" max="100" id="level" class="form-control" formControlName="level" #l (change)="setPokemonLevel(l.value)">
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <label>Base : </label>
+      <app-pokemon-stats-editor [stat]="this.pokemon.baseStat"
+                                (change)="this.pokemon.calculateStat()"></app-pokemon-stats-editor>
+    </div>
+    <div class="col">
+      <label>Individual : </label>
+      <app-pokemon-stats-editor [stat]="this.pokemon.individualStat" [max]="31"
+                                (change)="this.pokemon.calculateStat()"></app-pokemon-stats-editor>
+    </div>
+    <div class="col">
+      <label>Effort : </label>
+      <app-pokemon-stats-editor [stat]="this.pokemon.effortStat"
+                                (change)="this.pokemon.calculateStat()"></app-pokemon-stats-editor>
+    </div>
+    <div class="col">
+      <label>Nature : </label>
+      <app-pokemon-stats-editor [stat]="this.pokemon.natureStat" [min]="0.9" [max]="1.1"
+                                (change)="this.pokemon.calculateStat()"></app-pokemon-stats-editor>
+    </div>
+    <div class="col">
+      <label>Result : </label>
+      <app-pokemon-stats-display [stats]="this.pokemon.stats"
+                                 (change)="this.pokemon.calculateStat()"></app-pokemon-stats-display>
+    </div>
+
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="pokemonForm.invalid">Soumettre</button>
+</form>
 
 
-</div>
+
 
 
