@@ -17,10 +17,7 @@ export class BodyComponent implements OnInit {
   constructor( private battleService : BattleService,
                private pokemonApiService : PokemonApiService,
                private route: ActivatedRoute
-              ) {
-
-
-  }
+              ) { }
 
   pokemon1: Pokemon | undefined;
   pokemon2: Pokemon | undefined;
@@ -67,7 +64,6 @@ export class BodyComponent implements OnInit {
 
     this.logs.push( new Log(undefined, undefined, 'Start', 0, undefined));
     // tslint:disable-next-line:variable-name
-    let battle = new Battle();
     this.battleService.init([this.pokemon1, this.pokemon2] );
 
     this.battleService.startTurn();

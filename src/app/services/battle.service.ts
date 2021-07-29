@@ -57,7 +57,7 @@ export class BattleService {
     return new Log(
       pokemonToPlay.name,
       pokemonBattleMove.move.name,
-      pokemonToPlay.name+ " use "+ pokemonBattleMove.move.name+" ("+damage+")",
+      pokemonToPlay.pokemonName+ " use "+ pokemonBattleMove.move.name+" ("+damage+")",
       1,
       pokemonBattleMove.teams +1
     )
