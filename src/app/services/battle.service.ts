@@ -43,9 +43,9 @@ export class BattleService {
         }
       }else{
         return new Log(
-          pokemonToPlay.name,
-          pokemonBattleMove.move.name,
-          pokemonToPlay.pokemonName+ " use "+ pokemonBattleMove.move.name+" ( missed )",
+          pokemonToPlay,
+          pokemonBattleMove.move,
+          " ( missed )",
           1,
           pokemonBattleMove.teams +1
         )
@@ -55,9 +55,9 @@ export class BattleService {
 
 
     return new Log(
-      pokemonToPlay.name,
-      pokemonBattleMove.move.name,
-      pokemonToPlay.pokemonName+ " use "+ pokemonBattleMove.move.name+" ("+damage+")",
+      pokemonToPlay,
+      pokemonBattleMove.move,
+      " ("+damage+")",
       1,
       pokemonBattleMove.teams +1
     )

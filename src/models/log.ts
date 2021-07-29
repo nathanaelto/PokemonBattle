@@ -1,11 +1,15 @@
+import {Pokemon} from '../Mechanics/src/pokemon';
+import {PokemonMove} from '../Mechanics/src/pokemonMove';
+
 export class Log {
-  pokemon?: string;
-  attack?: string;
+
+  pokemon?: Pokemon;
+  attack?: PokemonMove;
   log: string;
   type: number;
   pid?: number;
 
-  constructor(pokemon: string | undefined, attack: string | undefined, log: string, type: number, pid: number |undefined) {
+  constructor(pokemon: Pokemon |undefined, attack: PokemonMove|undefined, log: string, type: number, pid: number |undefined) {
     this.pokemon = pokemon;
     this.attack = attack;
     this.log = log;
