@@ -1,3 +1,5 @@
 <p>Name : {{pokemon?.pokemonName}}</p>
 <p>HP : {{pokemon?.battleStat?.hp}}</p>
 <p>Speed : {{pokemon?.battleStat?.speed}}</p>
+<p [ngStyle]="{'color': pokemon?.type1?.getColor()}">Type1 : {{pokemon?.type1?.name}}</p>
+<p *ngIf="pokemon?.type2" [ngStyle]="{'color': pokemon?.type2?.getColor()}">Type2 : {{pokemon?.type2?.name}}</p>

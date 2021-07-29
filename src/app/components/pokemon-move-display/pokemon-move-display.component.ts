@@ -14,4 +14,6 @@ export class PokemonMoveDisplayComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+
 }
