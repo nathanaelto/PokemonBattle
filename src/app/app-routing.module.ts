@@ -11,7 +11,7 @@ const routes: Routes = [
   {path: 'select', component: SelectScreenComponent},
   {path: 'create', component: PokemonCreateComponent},
   {path: 'fight/:idPokemon1/:idPokemon2', component: BodyComponent},
-  {path: 'winner', component: WinnerScreenComponent},
+  {path: 'winner/:idPokemon', component: WinnerScreenComponent},
   {path: 'not-found', component: NotFoundComponent},
   {path: '', redirectTo: "select", pathMatch:'full'},
   {path: "**", redirectTo: "not-found"},

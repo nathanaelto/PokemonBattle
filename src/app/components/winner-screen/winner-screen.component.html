@@ -1,1 +1,8 @@
-<p>winner-screen works!</p>
+<div class="pokemon">
+  <img src="{{pokemon?.imageLink}}" alt="{{pokemon?.pokemonName}}">
+</div>
+<div style="background-color: white;">
+  <p>Name : {{pokemon?.pokemonName}}</p>
+  <p>HP : {{pokemon?.battleStat?.hp}}</p>
+  <p>Speed : {{pokemon?.battleStat?.speed}}</p>
+</div>
