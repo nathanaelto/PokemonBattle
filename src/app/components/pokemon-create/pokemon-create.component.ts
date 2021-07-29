@@ -107,6 +107,8 @@ export class PokemonCreateComponent implements OnInit {
       this.pokemon.type2 = undefined
     }
 
+    this.pokemon.name = name;
+    this.pokemon.pokemonName = name;
     this.pokemonApiService.addNewPokemon(this.pokemon);
 
     console.log('new pokemon: \n', this.pokemon);
@@ -115,3 +117,4 @@ export class PokemonCreateComponent implements OnInit {
   }
 
 }
+
