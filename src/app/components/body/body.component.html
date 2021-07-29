@@ -1,5 +1,5 @@
 <div class="container " id="body">
-  <div class="row hidden-md-down" >
+  <div class="row hidden-md-down">
     <div class="col-4">
       <app-pokemon-display [pokemon]="pokemon1"></app-pokemon-display>
     </div>
@@ -12,43 +12,44 @@
     </div>
   </div>
 
-<div class="row">
-  <div class="col-6">
-    <div *ngIf="pokemon1" class="grid-container">
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[0]"></app-pokemon-move-display>
-      </div>
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[1]"></app-pokemon-move-display>
-      </div>
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[2]"></app-pokemon-move-display>
-      </div>
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon1.moves[3]"></app-pokemon-move-display>
-      </div>
-    </div>
-  </div>
-  <div class="col-6">
-    <div *ngIf="pokemon2"  class="grid-container">
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[0]"></app-pokemon-move-display>
-      </div>
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[1]"></app-pokemon-move-display>
-      </div>
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[2]"></app-pokemon-move-display>
-      </div>
-      <div>
-        <app-pokemon-move-display [pokemonMove]="pokemon2.moves[3]"></app-pokemon-move-display>
+  <div class="row">
+    <div class="col-6">
+      <div *ngIf="pokemon1" class="grid-container">
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon1.moves[0]"></app-pokemon-move-display>
+        </div>
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon1.moves[1]"></app-pokemon-move-display>
+        </div>
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon1.moves[2]"></app-pokemon-move-display>
+        </div>
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon1.moves[3]"></app-pokemon-move-display>
+        </div>
       </div>
     </div>
-</div>
+    <div class="col-6">
+      <div *ngIf="pokemon2" class="grid-container">
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon2.moves[0]"></app-pokemon-move-display>
+        </div>
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon2.moves[1]"></app-pokemon-move-display>
+        </div>
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon2.moves[2]"></app-pokemon-move-display>
+        </div>
+        <div>
+          <app-pokemon-move-display [pokemonMove]="pokemon2.moves[3]"></app-pokemon-move-display>
+        </div>
+      </div>
+    </div>
 
 
-  <div class="col" >
-    <app-battle-log [logs]="logs"></app-battle-log>
+    <div class="container-fluid">
+      <app-battle-log [logs]="logs"></app-battle-log>
+    </div>
+
   </div>
 </div>
-

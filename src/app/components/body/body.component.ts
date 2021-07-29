@@ -24,9 +24,9 @@ export class BodyComponent implements OnInit {
 
   pokemon1: Pokemon | undefined;
   pokemon2: Pokemon | undefined;
-  // tslint:disable-next-line:ban-types
+
   logs: Log[] = [];
-  // tslint:disable-next-line:variable-name
+
   label_play_pause = 'Start';
   play = false;
 

@@ -10,23 +10,22 @@
     </div>
 
     <div class="row hidden-md-down">
-
       <div class="col-6">
         <label for="idPokemon1">First pokemon</label>
-        <img *ngIf="poke1" src="{{poke1.imgLink}}" alt="{{poke1.imgLink}}" width="500" height="600">
         <select id="idPokemon1" class="form-control" formControlName="idPokemon1" #t (change)="callType1(t.value)">
           <option *ngFor="let pokemon of createdPokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
           <option *ngFor="let pokemon of pokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
         </select>
+        <img *ngIf="poke1" src="{{poke1.imgLink}}" alt="{{poke1.imgLink}}" width="250" height="350">
       </div>
 
       <div class="col-6">
         <label for="idPokemon2">Second pokemon</label>
-        <img *ngIf="poke2" src="{{poke2.imgLink}}" alt="{{poke2.imgLink}}" width="500" height="600">
         <select id="idPokemon2" class="form-control" formControlName="idPokemon2" #d (change)="callType2(d.value)">
           <option *ngFor="let pokemon of createdPokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
           <option *ngFor="let pokemon of pokeList;" value="{{pokemon.name}}">{{pokemon.name}}</option>
         </select>
+        <img *ngIf="poke2" src="{{poke2.imgLink}}" alt="{{poke2.imgLink}}" width="250" height="350">
       </div>
 
       <div class="col-6">
@@ -39,6 +38,12 @@
       </div>
 
     </div>
-    <button type="submit" class="btn btn-primary" [disabled]="pokemonForm.invalid" >Start Fight</button>
+    <div class="row align-items-start ">
+      <button type="submit" class="align-self-center" [disabled]="pokemonForm.invalid" >
+<!--        Start Fight-->
+        <img src="assets/smash_fire_logo.png" alt="smash_fire_logo" width="100" height="100">
+      </button>
+    </div>
+
   </form>
 </div>
