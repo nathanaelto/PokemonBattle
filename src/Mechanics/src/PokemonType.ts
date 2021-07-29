@@ -55,5 +55,60 @@ export class PokemonType implements IPokemonType{
 
         return multiplier;
     }
+
+  getColor(){
+    switch ( this.name) {
+      case "normal":
+        return 'gray';
+      case "fighting":
+        return '#BE1593';
+      case "flying":
+        return '#4d7a8f';
+      case "poison":
+        return '#5016ae';
+      case "ground":
+        return '#835015';
+      case "rock":
+        return '#736744';
+      case "bug":
+        return '#338F1B';
+      case "ghost":
+        return '#1A3699';
+      case "steel":
+        return '#305373';
+      case "fire":
+        return '#FF7302';
+      case "water":
+        return '#048CE7';
+      case "grass":
+        return '#0D8C19';
+      case "electric":
+        return '#D9E515';
+      case "psychic":
+        return '#b52ba2';
+      case "ice":
+        return '#21E3D3';
+      case "dragon":
+        return '#0076FF';
+      case "dark":
+        return '#220A4F';
+      case "fairy":
+        return '#FF00F2';
+      case "unknown":
+        return '#36584B';
+      case "shadow":
+        return '#01030A';
+      default:
+        return 'gray';
+    }
+  }
+
+  getColorBorder(){
+    if(this.name === "shadow" ||this.name === "dark"){
+      return '#F1F2F3';
+    }else{
+      return '#1c1c1c';
+    }
+  }
 }
 

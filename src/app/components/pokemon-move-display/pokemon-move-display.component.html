@@ -1,16 +1,16 @@
 
-<div class="grid-container">
+<div class="grid-container" [ngStyle]="{'background-color': pokemonMove?.type?.getColor()}" >
     <div>
-      <p>name: {{pokemonMove?.name}}</p>
+      <p [ngStyle]="{'color': pokemonMove?.type?.getColorBorder()}">name: {{pokemonMove?.name}}</p>
     </div>
     <div>
-      <p>pow: {{pokemonMove?.power}}</p>
+      <p [ngStyle]="{'color': pokemonMove?.type?.getColorBorder()}">pow: {{pokemonMove?.power}}</p>
     </div>
     <div>
-      <p>aac: {{pokemonMove?.accuracy}}</p>
+      <p [ngStyle]="{'color': pokemonMove?.type?.getColorBorder()}">aac: {{pokemonMove?.accuracy}}</p>
     </div>
     <div>
-      <p>pp: {{pokemonMove?.pp}}</p>
+      <p [ngStyle]="{'color': pokemonMove?.type?.getColorBorder()}">pp: {{pokemonMove?.pp}}</p>
     </div>
 </div>
 
