@@ -1,8 +1,11 @@
-<div class="pokemon">
-  <img src="{{pokemon?.imageLink}}" alt="{{pokemon?.pokemonName}}">
-</div>
-<div style="background-color: white;">
-  <p>Name : {{pokemon?.pokemonName}}</p>
-  <p>HP : {{pokemon?.battleStat?.hp}}</p>
-  <p>Speed : {{pokemon?.battleStat?.speed}}</p>
+<div class="container-fluid">
+  <div class="pokemon col-12 row-cols-auto object">
+    <img src="{{pokemon?.imageLink}}" alt="{{pokemon?.pokemonName}}">
+  </div>
+  <div style="float:right;">
+    <h2>Name : {{pokemon?.pokemonName}}</h2>
+  </div>
+  <div style="position: absolute; bottom: 50%; right: 30%">
+    <a routerLink="/select">New match</a>
+  </div>
 </div>

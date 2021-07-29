@@ -9,7 +9,6 @@ import { PokemonDisplayComponent } from './components/pokemon-display/pokemon-di
 import { BattleLogComponent } from './components/battle-log/battle-log.component';
 import {BattleService} from './services/battle.service';
 import { SelectScreenComponent } from './components/select-screen/select-screen.component';
-import { FightScreenComponent } from './components/fight-screen/fight-screen.component';
 import { WinnerScreenComponent } from './components/winner-screen/winner-screen.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -29,7 +28,6 @@ import { PokemonMoveEditorComponent } from './components/pokemon-move-editor/pok
     PokemonDisplayComponent,
     BattleLogComponent,
     SelectScreenComponent,
-    FightScreenComponent,
     WinnerScreenComponent,
     NotFoundComponent,
     PokemonCreateComponent,

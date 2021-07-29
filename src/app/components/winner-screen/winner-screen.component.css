@@ -1,0 +1,31 @@
+.container-fluid {
+  margin: auto;
+  width: 40%;
+  padding: 10px;
+}
+
+img {
+  object-fit: contain;
+  height: 50%;
+  width: 50%;
+}
+
+.object {
+  animation: MoveUpDown 1s linear infinite;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+@keyframes MoveUpDown {
+  0%, 100% {
+    bottom: 0;
+  }
+  50% {
+    bottom: 100px;
+  }
+}
+
+a {
+  font-size: large;
+}
