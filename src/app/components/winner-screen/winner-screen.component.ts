@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import {Pokemon} from "../../../Mechanics/src/pokemon";
+import {PokemonApiService} from "../../services/pokemon-api.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-winner-screen',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WinnerScreenComponent implements OnInit {
 
-  constructor() { }
+  pokemon: Pokemon | undefined;
 
-  ngOnInit(): void {
+  constructor(private pokemonApiService: PokemonApiService,
+              private route: ActivatedRoute) { }
+
+  async ngOnInit() {
+    let pn1 = this.route.snapshot.paramMap.get('idPokemon');
+    if (pn1 !== null) {
+      this.pokemonApiService.getPokemonByName(pn1).subscribe(value => this.pokemon = value);
+    }
   }
 
 }

@@ -1,11 +1,26 @@
 <div class="container " id="body">
-  <div class="row hidden-md-down">
+  <div class="row hidden-md-down"
+       style="background-image: url('assets/pokemon_x_and_y_battle_background_18_by_phoenixoflight92_d86i02s-350t.jpg'); background-size:100% 100%;">
     <div class="col-4">
       <app-pokemon-display [pokemon]="pokemon1"></app-pokemon-display>
     </div>
-    <div class="col-4">
-      <p>VS</p>
+    <!--<div class="col-4 flip-logo">
       <button *ngIf="pokemon1 && pokemon2" type="button" (click)="launch()">{{play ? 'Pause' : 'Start'}}</button>
+    </div>-->
+    <div class="col-4 flip-box">
+      <div class="flip-box-inner">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="flip-box-front">
+          <img class="object-fit_contain" src="assets/Street_Fighter_VS_logo.png" alt="Paris" style="background-size:100% 100%; cursor: pointer;" (click)="launch()">
+        </div>
+        <div class="flip-box-back">
+          <img *ngIf="!play" class="object-fit_contain" src="assets/87-876591_streetfighter-fight-stickers-by-edskimo8-redbubble-street-fighter.png" alt="Paris" style="background-size:100% 100%; cursor: pointer;" (click)="launch()">
+          <img *ngIf="play" class="object-fit_contain" src="assets/stop-houston-astros-logo-vector-png-transparent-houston-astros-16.png" alt="Paris" style="background-size:100% 100%; cursor: pointer;" (click)="launch()">
+        </div>
+      </div>
     </div>
     <div class="col-4">
       <app-pokemon-display [pokemon]="pokemon2"></app-pokemon-display>
@@ -50,6 +65,6 @@
     <div class="container-fluid">
       <app-battle-log [logs]="logs"></app-battle-log>
     </div>
-
   </div>
+
 </div>
